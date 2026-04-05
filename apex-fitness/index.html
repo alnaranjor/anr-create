@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APEX Fitness</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;700;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--neon:#00ff88;--neon2:rgba(0,255,136,.1);--black:#050505;--dark:#0a0a0a;--card:#111;--text:#ddd;--muted:#555}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--black);color:var(--text);overflow-x:hidden}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--neon)}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:22px 64px;transition:all .3s}
+nav.s{background:rgba(5,5,5,.97);backdrop-filter:blur(10px);padding:14px 64px;border-bottom:1px solid rgba(0,255,136,.07)}
+.logo{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;letter-spacing:3px;color:white;text-decoration:none}
+.logo span{color:var(--neon)}
+.nav-right{display:flex;align-items:center;gap:12px}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{color:#555;text-decoration:none;font-size:12px;letter-spacing:2px;text-transform:uppercase;font-weight:500;transition:color .25s}
+.nav-links a:hover{color:var(--neon)}
+.lang-btn{background:transparent;border:1px solid rgba(255,255,255,.1);color:#555;padding:7px 14px;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:2px;cursor:pointer;transition:all .3s}
+.lang-btn:hover{border-color:var(--neon);color:var(--neon)}
+.nav-btn{background:var(--neon);color:var(--black);padding:10px 26px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;cursor:pointer;transition:all .3s;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%)}
+.nav-btn:hover{background:white;box-shadow:0 0 24px rgba(0,255,136,.4)}
+
+/* HERO */
+.hero{min-height:100vh;position:relative;display:flex;align-items:center;padding:160px 64px 100px;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1800&q=80') center/cover}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,rgba(5,5,5,.97) 50%,rgba(5,5,5,.55) 100%)}
+.hero-bg::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(0,255,136,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,136,.025) 1px,transparent 1px);background-size:60px 60px;z-index:1}
+.hero-content{position:relative;z-index:2}
+.hero-tag{display:flex;align-items:center;gap:12px;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--neon);margin-bottom:22px}
+.hero-tag::before{content:'';width:32px;height:2px;background:var(--neon)}
+h1{font-family:'Barlow Condensed',sans-serif;font-size:clamp(70px,11vw,148px);font-weight:900;text-transform:uppercase;line-height:.88;margin-bottom:28px}
+.h-out{-webkit-text-stroke:2px white;color:transparent}
+.h-neon{color:var(--neon);display:block;text-shadow:0 0 40px rgba(0,255,136,.4)}
+.hero-sub{font-size:16px;font-weight:300;color:#666;max-width:440px;line-height:1.8;margin-bottom:44px}
+.hero-btns{display:flex;gap:14px;margin-bottom:60px}
+.btn-neon{background:var(--neon);color:var(--black);padding:15px 40px;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;cursor:pointer;clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);transition:all .3s;text-decoration:none;display:inline-block}
+.btn-neon:hover{box-shadow:0 0 36px rgba(0,255,136,.5);transform:translateY(-3px)}
+.btn-out{background:transparent;color:white;padding:15px 40px;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:2px solid rgba(255,255,255,.18);cursor:pointer;clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);transition:all .3s;text-decoration:none;display:inline-block}
+.btn-out:hover{border-color:var(--neon);color:var(--neon)}
+.hero-stats{display:flex;gap:52px}
+.h-stat-n{font-family:'Barlow Condensed',sans-serif;font-size:50px;font-weight:900;color:white;line-height:1}
+.h-stat-n span{color:var(--neon)}
+.h-stat-l{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:4px}
+
+/* TICKER */
+.ticker{background:var(--neon);padding:13px 0;overflow:hidden}
+.ticker-inner{display:flex;animation:tick 22s linear infinite;white-space:nowrap}
+.ticker-inner span{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--black);padding:0 28px}
+.sep{opacity:.3}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* PROGRAMS */
+.programs{padding:100px 64px}
+.s-lbl{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--neon);display:block;margin-bottom:12px}
+.s-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(40px,5vw,68px);font-weight:900;text-transform:uppercase;line-height:1;margin-bottom:60px}
+.prog-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+.prog{position:relative;overflow:hidden;aspect-ratio:3/4}
+.prog img{width:100%;height:100%;object-fit:cover;filter:grayscale(40%) brightness(.7);transition:all .5s}
+.prog:hover img{filter:grayscale(0%) brightness(.5);transform:scale(1.07)}
+.prog-num{position:absolute;top:18px;left:18px;font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:2px;color:var(--neon)}
+.prog-ov{position:absolute;inset:0;background:linear-gradient(transparent 35%,rgba(5,5,5,.94) 100%)}
+.prog-info{position:absolute;bottom:0;left:0;right:0;padding:26px 22px}
+.prog-tag{display:inline-block;background:var(--neon);color:var(--black);font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;padding:3px 10px;margin-bottom:8px}
+.prog h3{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:700;text-transform:uppercase;margin-bottom:5px}
+.prog p{font-size:12px;color:#666;line-height:1.6}
+
+/* STATS */
+.stats-row{padding:70px 64px;background:var(--neon2);border-top:1px solid rgba(0,255,136,.08);border-bottom:1px solid rgba(0,255,136,.08);display:grid;grid-template-columns:repeat(4,1fr)}
+.stat-col{text-align:center;padding:16px;border-right:1px solid rgba(0,255,136,.07)}
+.stat-col:last-child{border:none}
+.stat-big{font-family:'Barlow Condensed',sans-serif;font-size:76px;font-weight:900;color:var(--neon);line-height:1}
+.stat-lbl{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:6px}
+
+/* PRICING — featured button fix */
+.pricing{padding:100px 64px;background:var(--dark)}
+.plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:60px}
+.plan{background:var(--card);padding:46px 34px;transition:transform .3s;position:relative}
+.plan:hover{transform:translateY(-6px)}
+.plan.featured{background:var(--neon)}
+.plan-badge{position:absolute;top:-1px;right:28px;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;padding:5px 14px}
+.plan:not(.featured) .plan-badge{background:var(--neon);color:var(--black)}
+.plan.featured .plan-badge{background:var(--black);color:var(--neon)}
+.plan-name{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:22px}
+.plan:not(.featured) .plan-name{color:var(--muted)}
+.plan.featured .plan-name{color:rgba(0,0,0,.5)}
+.plan-price{font-family:'Barlow Condensed',sans-serif;font-size:70px;font-weight:900;line-height:1}
+.plan:not(.featured) .plan-price{color:white}
+.plan.featured .plan-price{color:var(--black)}
+.plan-price sup{font-size:22px;vertical-align:super}
+.plan-period{font-size:13px;margin:6px 0 26px}
+.plan:not(.featured) .plan-period{color:var(--muted)}
+.plan.featured .plan-period{color:rgba(0,0,0,.5)}
+.plan-feats{list-style:none;margin-bottom:32px}
+.plan-feats li{padding:9px 0;font-size:13px;display:flex;align-items:center;gap:10px}
+.plan:not(.featured) .plan-feats li{border-bottom:1px solid rgba(255,255,255,.05);color:#888}
+.plan.featured .plan-feats li{border-bottom:1px solid rgba(0,0,0,.1);color:rgba(0,0,0,.7)}
+.plan-feats li::before{content:'✓';font-weight:700}
+.plan:not(.featured) .plan-feats li::before{color:var(--neon)}
+.plan.featured .plan-feats li::before{color:var(--black)}
+/* BUTTON FIX — explicit per plan */
+.plan-btn{width:100%;padding:13px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .3s;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);border:none}
+.plan:not(.featured) .plan-btn{background:transparent;border:2px solid rgba(0,255,136,.25);color:var(--neon)}
+.plan:not(.featured) .plan-btn:hover{background:var(--neon);color:var(--black)}
+.plan.featured .plan-btn{background:var(--black);color:var(--neon);border:none}
+.plan.featured .plan-btn:hover{background:#111;box-shadow:0 0 20px rgba(0,255,136,.3)}
+
+/* JOIN */
+.join{padding:100px 64px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.join-text .s-lbl{display:block;margin-bottom:12px}
+.join-text .s-title{margin-bottom:20px}
+.join-text p{color:var(--muted);font-size:15px;line-height:1.8;margin-bottom:32px}
+.join-perks{list-style:none;display:flex;flex-direction:column;gap:14px}
+.join-perks li{display:flex;align-items:center;gap:12px;font-size:14px;color:#aaa}
+.join-perks li::before{content:'';width:18px;height:2px;background:var(--neon);flex-shrink:0}
+form{display:flex;flex-direction:column;gap:12px}
+input,select{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:var(--text);padding:14px 18px;font-family:'Inter',sans-serif;font-size:14px;outline:none;transition:border .3s;width:100%}
+input:focus,select:focus{border-color:var(--neon)}
+input::placeholder{color:#333}
+select option{background:var(--dark)}
+.form-ok{display:none;background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.2);padding:22px;text-align:center;color:var(--neon);font-size:14px}
+
+/* FOOTER */
+footer{background:#030303;padding:36px 64px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(0,255,136,.05)}
+.footer-logo{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;letter-spacing:3px;color:white}
+.footer-logo span{color:var(--neon)}
+footer p{font-size:12px;color:#2a2a2a}
+
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .65s,transform .65s}
+.reveal.visible{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="logo" href="#">APE<span>X</span></a>
+  <ul class="nav-links">
+    <li><a href="#programs" data-en="Programs">Programas</a></li>
+    <li><a href="#pricing" data-en="Pricing">Precios</a></li>
+    <li><a href="#join" data-en="Join">Únete</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="lang-btn" id="langBtn" onclick="toggleLang()">EN</button>
+    <button class="nav-btn" data-en="Join Now" onclick="document.getElementById('join').scrollIntoView({behavior:'smooth'})">Únete Ahora</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-tag" data-en="Elite Training Facility">Centro de Entrenamiento de Élite</div>
+    <h1>
+      <span class="h-out">Entrena</span><br>
+      <span class="h-neon">Sin</span><br>
+      <span class="h-out">Límites</span>
+    </h1>
+    <p class="hero-sub" data-en="Elite programs, expert coaching and a community built around one goal — becoming your strongest self.">Programas de élite, entrenadores expertos y una comunidad con un único objetivo: convertirte en tu mejor versión.</p>
+    <div class="hero-btns">
+      <a class="btn-neon" href="#join" data-en="Start Free Trial">Prueba Gratis</a>
+      <a class="btn-out" href="#programs" data-en="View Programs">Ver Programas</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="h-stat-n">3<span>k+</span></div><div class="h-stat-l" data-en="Members">Miembros</div></div>
+      <div><div class="h-stat-n">15<span>+</span></div><div class="h-stat-l" data-en="Coaches">Entrenadores</div></div>
+      <div><div class="h-stat-n">24<span>/7</span></div><div class="h-stat-l" data-en="Open">Abierto</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="ticker">
+  <div class="ticker-inner">
+    <span>Fuerza</span><span class="sep">✦</span><span>HIIT</span><span class="sep">✦</span><span>Boxeo</span><span class="sep">✦</span><span>Yoga</span><span class="sep">✦</span><span>Crossfit</span><span class="sep">✦</span><span>Nutrición</span><span class="sep">✦</span><span>Recuperación</span><span class="sep">✦</span>
+    <span>Fuerza</span><span class="sep">✦</span><span>HIIT</span><span class="sep">✦</span><span>Boxeo</span><span class="sep">✦</span><span>Yoga</span><span class="sep">✦</span><span>Crossfit</span><span class="sep">✦</span><span>Nutrición</span><span class="sep">✦</span><span>Recuperación</span><span class="sep">✦</span>
+  </div>
+</div>
+
+<section class="programs" id="programs">
+  <div class="reveal">
+    <span class="s-lbl" data-en="Programs">Programas</span>
+    <h2 class="s-title" data-en="Find your<br>discipline">Encuentra tu<br>disciplina</h2>
+  </div>
+  <div class="prog-grid">
+    <div class="prog reveal">
+      <!-- Pexels barbell/gym — reliable image -->
+      <img src="https://images.pexels.com/photos/841130/pexels-photo-841130.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Strength">
+      <div class="prog-ov"></div>
+      <div class="prog-num">01</div>
+      <div class="prog-info">
+        <div class="prog-tag" data-en="Popular">Popular</div>
+        <h3 data-en="Strength">Fuerza</h3>
+        <p data-en="Periodised programming and expert coaching.">Programación periodizada y coaching experto.</p>
+      </div>
+    </div>
+    <div class="prog reveal">
+      <img src="https://images.pexels.com/photos/4498606/pexels-photo-4498606.jpeg?auto=compress&cs=tinysrgb&w=600" alt="HIIT">
+      <div class="prog-ov"></div>
+      <div class="prog-num">02</div>
+      <div class="prog-info">
+        <div class="prog-tag" data-en="Burn">Quema</div>
+        <h3>HIIT</h3>
+        <p data-en="High-intensity intervals for maximum conditioning.">Intervalos de alta intensidad para máximo rendimiento.</p>
+      </div>
+    </div>
+    <div class="prog reveal">
+      <img src="https://images.pexels.com/photos/317155/pexels-photo-317155.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Yoga">
+      <div class="prog-ov"></div>
+      <div class="prog-num">03</div>
+      <div class="prog-info">
+        <div class="prog-tag" data-en="Recover">Recupera</div>
+        <h3>Yoga</h3>
+        <p data-en="Flexibility and mindfulness for performance.">Flexibilidad y mindfulness para el rendimiento.</p>
+      </div>
+    </div>
+    <div class="prog reveal">
+      <img src="https://images.pexels.com/photos/260447/pexels-photo-260447.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Boxing">
+      <div class="prog-ov"></div>
+      <div class="prog-num">04</div>
+      <div class="prog-info">
+        <div class="prog-tag" data-en="Fight">Lucha</div>
+        <h3 data-en="Boxing">Boxeo</h3>
+        <p data-en="Combat training for all levels.">Entrenamiento de combate para todos los niveles.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="stats-row reveal">
+  <div class="stat-col"><div class="stat-big" data-to="3200">0</div><div class="stat-lbl" data-en="Active Members">Miembros activos</div></div>
+  <div class="stat-col"><div class="stat-big" data-to="98">0</div><div class="stat-lbl" data-en="% Satisfaction">% Satisfacción</div></div>
+  <div class="stat-col"><div class="stat-big" data-to="15">0</div><div class="stat-lbl" data-en="Elite Coaches">Entrenadores élite</div></div>
+  <div class="stat-col"><div class="stat-big" data-to="2800">0</div><div class="stat-lbl" data-en="m² Facilities">m² instalaciones</div></div>
+</div>
+
+<section class="pricing" id="pricing">
+  <div class="reveal">
+    <span class="s-lbl" data-en="Membership">Membresía</span>
+    <h2 class="s-title" data-en="Choose your<br>plan">Elige tu<br>plan</h2>
+  </div>
+  <div class="plan-grid">
+    <div class="plan reveal">
+      <div class="plan-name" data-en="Starter">Básico</div>
+      <div class="plan-price"><sup>€</sup>39</div>
+      <div class="plan-period" data-en="per month">al mes</div>
+      <ul class="plan-feats">
+        <li data-en="Full gym access">Acceso completo al gym</li>
+        <li data-en="Group classes (5/week)">Clases grupales (5/semana)</li>
+        <li data-en="Locker room">Vestuarios</li>
+        <li data-en="App access">Acceso a la app</li>
+      </ul>
+      <button class="plan-btn" onclick="document.getElementById('join').scrollIntoView({behavior:'smooth'})" data-en="Get Started">Empezar</button>
+    </div>
+    <div class="plan featured reveal">
+      <div class="plan-badge" data-en="Most Popular">Más Popular</div>
+      <div class="plan-name" data-en="Pro">Pro</div>
+      <div class="plan-price"><sup>€</sup>69</div>
+      <div class="plan-period" data-en="per month">al mes</div>
+      <ul class="plan-feats">
+        <li data-en="Unlimited group classes">Clases grupales ilimitadas</li>
+        <li data-en="2x PT sessions/month">2 sesiones PT/mes</li>
+        <li data-en="Nutrition plan">Plan nutricional</li>
+        <li data-en="Progress tracking">Seguimiento de progreso</li>
+        <li data-en="Priority booking">Reserva prioritaria</li>
+      </ul>
+      <button class="plan-btn" onclick="document.getElementById('join').scrollIntoView({behavior:'smooth'})" data-en="Join Pro">Unirse al Pro</button>
+    </div>
+    <div class="plan reveal">
+      <div class="plan-name" data-en="Elite">Élite</div>
+      <div class="plan-price"><sup>€</sup>129</div>
+      <div class="plan-period" data-en="per month">al mes</div>
+      <ul class="plan-feats">
+        <li data-en="Everything in Pro">Todo lo del Pro</li>
+        <li data-en="8x PT sessions/month">8 sesiones PT/mes</li>
+        <li data-en="Monthly body scan">Escáner corporal mensual</li>
+        <li data-en="Guest passes (2/mo)">Invitados (2/mes)</li>
+      </ul>
+      <button class="plan-btn" onclick="document.getElementById('join').scrollIntoView({behavior:'smooth'})" data-en="Go Elite">Ir a Élite</button>
+    </div>
+  </div>
+</section>
+
+<section class="join" id="join">
+  <div class="join-text reveal">
+    <span class="s-lbl" data-en="Join">Únete</span>
+    <h2 class="s-title" data-en="First week<br>is free.">Primera semana<br>gratis.</h2>
+    <p data-en="No contracts. No commitment. Try everything for 7 days, completely free.">Sin contratos. Sin compromisos. Prueba todo durante 7 días, completamente gratis.</p>
+    <ul class="join-perks">
+      <li data-en="Full access during trial">Acceso completo durante la prueba</li>
+      <li data-en="Personal assessment included">Evaluación personal incluida</li>
+      <li data-en="Cancel anytime, no fees">Cancela cuando quieras, sin coste</li>
+      <li data-en="Onboarding session with a coach">Sesión de bienvenida con un entrenador</li>
+    </ul>
+  </div>
+  <div class="reveal">
+    <form id="joinForm" onsubmit="submitJoin(event)">
+      <input type="text" placeholder="Nombre completo" required>
+      <input type="email" placeholder="Correo electrónico" required>
+      <input type="tel" placeholder="Teléfono">
+      <select required>
+        <option disabled selected value="">Programa preferido</option>
+        <option>Fuerza</option><option>HIIT</option><option>Yoga</option><option>Boxeo</option><option>No lo sé aún</option>
+      </select>
+      <button type="submit" class="btn-neon" style="clip-path:none;width:100%;display:block;padding:16px" data-en="Claim Free Week →">Reclamar Semana Gratis →</button>
+    </form>
+    <div class="form-ok" id="joinOk">✓ <span data-en="Done! We'll contact you within 24h.">¡Listo! Te contactaremos en menos de 24h.</span></div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">APE<span>X</span></div>
+  <p>© 2025 APEX Fitness. <span data-en="All rights reserved.">Todos los derechos reservados.</span></p>
+</footer>
+
+<!-- COOKIE BANNER -->
+<div id="cookieBanner" style="position:fixed;bottom:0;left:0;right:0;z-index:9999;background:rgba(5,5,5,.97);backdrop-filter:blur(10px);border-top:1px solid rgba(0,255,136,.08);padding:18px 64px;display:flex;align-items:center;justify-content:space-between;gap:32px">
+  <p style="font-size:13px;color:#555;max-width:620px;line-height:1.6">🍪 We use cookies to improve your browsing experience, analyse traffic and personalise content. By clicking <strong style="color:#ddd">Accept All</strong> you consent to our use of cookies.</p>
+  <div style="display:flex;gap:10px;flex-shrink:0">
+    <button onclick="setCookie('no')" style="background:transparent;border:1px solid rgba(255,255,255,.1);color:#555;padding:9px 22px;font-size:12px;letter-spacing:1px;cursor:pointer;font-family:'Inter',sans-serif">Decline</button>
+    <button onclick="setCookie('yes')" style="background:var(--neon);border:none;color:var(--black);padding:9px 22px;font-size:12px;letter-spacing:1px;cursor:pointer;font-family:'Inter',sans-serif;font-weight:700">Accept All</button>
+  </div>
+</div>
+
+<script>
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('s',scrollY>50));
+const io=new IntersectionObserver(es=>es.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*80);io.unobserve(e.target)}}),{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// Counter
+const sr=document.querySelector('.stats-row');let counted=false;
+new IntersectionObserver(([e])=>{if(e.isIntersecting&&!counted){counted=true;document.querySelectorAll('[data-to]').forEach(el=>{const t=+el.dataset.to,d=1800,s=performance.now();const r=n=>{const p=Math.min((n-s)/d,1),v=Math.floor((1-Math.pow(1-p,3))*t);el.textContent=v.toLocaleString();if(p<1)requestAnimationFrame(r)};requestAnimationFrame(r)})}},{threshold:.3}).observe(sr);
+
+// Form
+function submitJoin(e){e.preventDefault();document.getElementById('joinForm').style.display='none';document.getElementById('joinOk').style.display='block'}
+
+// Cookie
+if(localStorage.getItem('cookies_apex'))document.getElementById('cookieBanner').style.display='none';
+function setCookie(v){localStorage.setItem('cookies_apex',v);document.getElementById('cookieBanner').style.display='none'}
+
+// Language
+let lang='es';
+function toggleLang(){
+  lang=lang==='es'?'en':'es';
+  document.getElementById('langBtn').textContent=lang==='es'?'EN':'ES';
+  document.querySelectorAll('[data-en]').forEach(el=>{
+    if(lang==='en'){if(!el.dataset.es)el.dataset.es=el.innerHTML;el.innerHTML=el.dataset.en}
+    else{if(el.dataset.es)el.innerHTML=el.dataset.es}
+  });
+}
+</script>
+</body>
+</html>

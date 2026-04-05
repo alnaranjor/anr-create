@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lumina Studio — Creative Agency</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,700;0,800;1,400&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--p:#7c3aed;--v:#a855f7;--pk:#ec4899;--b:#3b82f6;--bg:#f8f8fc;--dark:#0c0c10;--white:#fff;--text:#111;--muted:#777;--border:rgba(0,0,0,.07)}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:linear-gradient(var(--p),var(--pk))}::-webkit-scrollbar-track{background:var(--bg)}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:22px 64px;background:rgba(248,248,252,.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.logo{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;text-decoration:none;color:var(--text);display:flex;align-items:center;gap:4px}
+.logo-dot{width:9px;height:9px;background:linear-gradient(135deg,var(--p),var(--pk));border-radius:50%;display:inline-block}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{color:#888;text-decoration:none;font-size:13px;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--p)}
+.nav-btn{background:var(--dark);color:white;padding:10px 24px;font-size:13px;font-weight:700;border:none;border-radius:6px;cursor:pointer;transition:all .3s}
+.nav-btn:hover{background:var(--p);box-shadow:0 6px 20px rgba(124,58,237,.3);transform:translateY(-2px)}
+
+/* HERO */
+.hero{padding:160px 64px 100px;position:relative;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.blob{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none}
+.blob1{width:520px;height:520px;background:rgba(124,58,237,.15);top:-140px;right:-80px;animation:flt 9s ease-in-out infinite}
+.blob2{width:380px;height:380px;background:rgba(236,72,153,.1);bottom:-60px;left:15%;animation:flt 7s ease-in-out infinite reverse}
+.blob3{width:300px;height:300px;background:rgba(59,130,246,.12);top:200px;left:-40px;animation:flt 11s ease-in-out infinite .5s}
+@keyframes flt{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-28px) scale(1.04)}}
+.hero-left{position:relative;z-index:2}
+.hero-pill{display:inline-flex;align-items:center;gap:8px;background:white;border:1px solid var(--border);border-radius:100px;padding:7px 16px 7px 9px;margin-bottom:32px;font-size:13px;font-weight:500;color:#555;box-shadow:0 2px 12px rgba(0,0,0,.05)}
+.pill-dot{width:8px;height:8px;background:#22c55e;border-radius:50%;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.4)}50%{box-shadow:0 0 0 6px rgba(34,197,94,0)}}
+h1{font-size:clamp(48px,6vw,84px);font-weight:800;line-height:1.0;letter-spacing:-2px;margin-bottom:24px}
+.grad{background:linear-gradient(135deg,var(--p),var(--pk),var(--b));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:18px;font-weight:300;color:#666;line-height:1.75;margin-bottom:40px;max-width:500px}
+.hero-btns{display:flex;align-items:center;gap:18px;margin-bottom:56px}
+.btn-grad{background:linear-gradient(135deg,var(--p),var(--pk));color:white;padding:15px 38px;font-size:15px;font-weight:700;border:none;border-radius:8px;cursor:pointer;transition:all .3s;box-shadow:0 6px 28px rgba(124,58,237,.28);text-decoration:none;display:inline-block}
+.btn-grad:hover{transform:translateY(-3px);box-shadow:0 12px 36px rgba(124,58,237,.4)}
+.btn-link{font-size:14px;font-weight:600;color:var(--p);background:none;border:none;cursor:pointer;text-decoration:none;display:flex;align-items:center;gap:6px;transition:gap .25s}
+.btn-link:hover{gap:12px}
+.hero-nums{display:flex;gap:40px}
+.hnum strong{display:block;font-size:36px;font-weight:800;color:var(--text)}
+.hnum span{font-size:12px;color:var(--muted)}
+
+/* HERO RIGHT */
+.hero-right{position:relative;z-index:2}
+.hero-img-wrap{border-radius:20px;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,.12);position:relative}
+.hero-img-wrap img{width:100%;display:block}
+.img-badge{position:absolute;bottom:20px;left:20px;background:white;border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 8px 24px rgba(0,0,0,.1)}
+.badge-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--p),var(--pk));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.badge-text strong{display:block;font-size:14px;font-weight:700}
+.badge-text span{font-size:11px;color:#aaa}
+
+/* LOGOS */
+.logos-band{padding:44px 64px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--white)}
+.logos-band p{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#bbb;text-align:center;margin-bottom:24px}
+.logos-row{display:flex;justify-content:center;align-items:center;gap:52px;flex-wrap:wrap}
+.br{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;color:#ccc;letter-spacing:1px;transition:color .25s;cursor:default}
+.br:hover{color:var(--p)}
+
+/* SERVICES */
+.services{padding:100px 64px;background:var(--white)}
+.s-tag{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--p);font-weight:600;display:block;margin-bottom:14px}
+.s-title{font-size:clamp(32px,4vw,54px);font-weight:800;letter-spacing:-1px;line-height:1.05;margin-bottom:60px}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.svc{background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:38px 30px;transition:all .35s;position:relative;overflow:hidden;cursor:default}
+.svc::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--p),var(--pk));opacity:0;transition:opacity .35s;border-radius:16px}
+.svc:hover::before{opacity:1}
+.svc:hover{transform:translateY(-5px);box-shadow:0 20px 50px rgba(124,58,237,.22)}
+.svc:hover h3,.svc:hover p,.svc:hover .svc-arrow{color:white}
+.svc>*{position:relative;z-index:1}
+.svc-icon{width:50px;height:50px;background:rgba(124,58,237,.1);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:22px;transition:background .35s}
+.svc:hover .svc-icon{background:rgba(255,255,255,.2)}
+.svc h3{font-size:19px;font-weight:700;margin-bottom:12px;transition:color .35s}
+.svc p{font-size:14px;color:var(--muted);line-height:1.75;margin-bottom:20px;transition:color .35s}
+.svc-arrow{font-size:13px;font-weight:700;color:var(--p);transition:color .35s}
+
+/* WORK */
+.work{padding:100px 64px;background:var(--dark)}
+.work .s-tag{color:var(--v)}
+.work .s-title{color:white}
+.work-grid{display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:280px 280px;gap:12px;margin-top:60px}
+.wi{border-radius:12px;overflow:hidden;position:relative}
+.wi:nth-child(1){grid-column:1/8}
+.wi:nth-child(2){grid-column:8/13}
+.wi:nth-child(3){grid-column:1/5}
+.wi:nth-child(4){grid-column:5/9}
+.wi:nth-child(5){grid-column:9/13}
+.wi img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.wi:hover img{transform:scale(1.05)}
+.wi-ov{position:absolute;inset:0;background:linear-gradient(transparent 40%,rgba(0,0,0,.8) 100%);opacity:0;transition:opacity .4s;display:flex;align-items:flex-end;padding:22px}
+.wi:hover .wi-ov{opacity:1}
+.wi-ov span{color:white;font-size:15px;font-weight:700}
+
+/* PROCESS */
+.process{padding:100px 64px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.process-img{border-radius:20px;overflow:hidden;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.1)}
+.process-img img{width:100%;display:block}
+.p-badge{position:absolute;top:22px;right:22px;background:white;border-radius:12px;padding:14px 18px;box-shadow:0 8px 24px rgba(0,0,0,.1);text-align:center}
+.p-badge strong{display:block;font-size:28px;font-weight:800;color:var(--p);line-height:1}
+.p-badge span{font-size:11px;color:#aaa}
+.process-steps{display:flex;flex-direction:column;gap:28px;margin-top:36px}
+.step{display:flex;gap:18px}
+.step-n{width:40px;height:40px;background:linear-gradient(135deg,var(--p),var(--pk));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:white;flex-shrink:0}
+.step h4{font-size:17px;font-weight:700;margin-bottom:5px}
+.step p{font-size:14px;color:var(--muted);line-height:1.7}
+
+/* CONTACT */
+.contact-section{padding:100px 64px;background:linear-gradient(135deg,#f0ecff,#fff0f6)}
+.contact-inner{max-width:780px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px}
+.contact-info .s-tag{text-align:left}
+.contact-info .s-title{margin-bottom:20px}
+.contact-info p{font-size:15px;color:var(--muted);line-height:1.8;margin-bottom:28px}
+.contact-detail{display:flex;flex-direction:column;gap:14px;margin-bottom:28px}
+.cdet{font-size:14px;color:#666}
+.cdet strong{display:block;color:var(--text);margin-bottom:2px}
+form{display:flex;flex-direction:column;gap:12px}
+input,textarea,select{background:white;border:1px solid rgba(0,0,0,.1);color:var(--text);padding:14px 18px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;outline:none;transition:border .3s;border-radius:6px}
+input:focus,textarea:focus{border-color:var(--p)}
+textarea{resize:vertical;min-height:110px}
+input::placeholder,textarea::placeholder{color:#bbb}
+.form-ok{display:none;background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.2);padding:22px;text-align:center;color:var(--p);font-size:15px;border-radius:8px;font-weight:600}
+
+/* FOOTER */
+footer{background:var(--dark);padding:50px 64px 28px}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:40px}
+.footer-logo{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;color:white;margin-bottom:10px}
+.footer-logo span{color:var(--v)}
+footer p{font-size:13px;color:#444;line-height:1.8}
+footer h5{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--v);margin-bottom:16px}
+footer a{display:block;font-size:13px;color:#444;text-decoration:none;margin-bottom:10px;transition:color .2s}
+footer a:hover{color:var(--v)}
+.footer-bot{border-top:1px solid rgba(255,255,255,.05);padding-top:22px;display:flex;justify-content:space-between}
+.footer-bot p{font-size:12px;color:#2a2a2a}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .7s,transform .7s}
+.reveal.visible{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="#">lumina<span class="logo-dot"></span></a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:10px">
+    <button id="langBtn" onclick="toggleLang()" style="background:transparent;border:1px solid var(--border);color:#aaa;padding:7px 14px;font-size:12px;font-weight:600;border-radius:6px;cursor:pointer;font-family:inherit;transition:all .25s">ES</button>
+    <button class="nav-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Start a project →</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="blob blob1"></div>
+  <div class="blob blob2"></div>
+  <div class="blob blob3"></div>
+
+  <div class="hero-left">
+    <div class="hero-pill"><span class="pill-dot"></span> Available for new projects</div>
+    <h1>We build brands<br>that <span class="grad">stand out.</span></h1>
+    <p class="hero-sub">A creative studio specialising in brand identity, web design and digital experiences that move people — and businesses.</p>
+    <div class="hero-btns">
+      <a class="btn-grad" href="#work">See our work</a>
+      <a class="btn-link" href="#contact">Start a project →</a>
+    </div>
+    <div class="hero-nums">
+      <div class="hnum"><strong>120+</strong><span>Projects delivered</span></div>
+      <div class="hnum"><strong>98%</strong><span>Client satisfaction</span></div>
+      <div class="hnum"><strong>48h</strong><span>Brief turnaround</span></div>
+    </div>
+  </div>
+
+  <div class="hero-right reveal">
+    <div class="hero-img-wrap">
+      <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=900&q=80" alt="Creative work">
+      <div class="img-badge">
+        <div class="badge-icon">✦</div>
+        <div class="badge-text"><strong>+240% avg ROI</strong><span>Client results</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOGOS -->
+<div class="logos-band reveal">
+  <p>Trusted by forward-thinking brands</p>
+  <div class="logos-row">
+    <span class="br">Nexora</span>
+    <span class="br">Orbital</span>
+    <span class="br">Vantage</span>
+    <span class="br">Stratus</span>
+    <span class="br">Ember Labs</span>
+    <span class="br">Pulse</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="reveal">
+    <span class="s-tag">What we do</span>
+    <h2 class="s-title">Full-stack creative<br>for ambitious brands</h2>
+  </div>
+  <div class="svc-grid">
+    <div class="svc reveal"><div class="svc-icon">🎨</div><h3>Brand Identity</h3><p>Logos, colour systems and visual guidelines that make your brand unmistakable.</p><div class="svc-arrow">Explore →</div></div>
+    <div class="svc reveal"><div class="svc-icon">💻</div><h3>Web Design & Dev</h3><p>High-performance websites built with the latest technologies. Fast and conversion-focused.</p><div class="svc-arrow">Explore →</div></div>
+    <div class="svc reveal"><div class="svc-icon">📱</div><h3>UI/UX Design</h3><p>Research-led interface design for web and mobile that converts and delights.</p><div class="svc-arrow">Explore →</div></div>
+    <div class="svc reveal"><div class="svc-icon">📸</div><h3>Creative Direction</h3><p>Art direction and campaign concepts that give your brand a cohesive visual voice.</p><div class="svc-arrow">Explore →</div></div>
+    <div class="svc reveal"><div class="svc-icon">✍️</div><h3>Content Strategy</h3><p>Messaging and copy that connects with your audience and drives organic growth.</p><div class="svc-arrow">Explore →</div></div>
+    <div class="svc reveal"><div class="svc-icon">📊</div><h3>Growth Marketing</h3><p>SEO and conversion optimisation powered by data and creative experimentation.</p><div class="svc-arrow">Explore →</div></div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section class="work" id="work">
+  <div class="reveal">
+    <span class="s-tag">Our Work</span>
+    <h2 class="s-title">Selected projects</h2>
+  </div>
+  <div class="work-grid">
+    <div class="wi reveal"><img src="https://images.unsplash.com/photo-1558655146-364adaf1fcc9?auto=format&fit=crop&w=900&q=80" alt="Project 1"><div class="wi-ov"><span>Brand Identity · Web</span></div></div>
+    <div class="wi reveal"><img src="https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?auto=format&fit=crop&w=600&q=80" alt="Project 2"><div class="wi-ov"><span>UI/UX · Mobile App</span></div></div>
+    <div class="wi reveal"><img src="https://images.unsplash.com/photo-1542744094-24638eff58bb?auto=format&fit=crop&w=600&q=80" alt="Project 3"><div class="wi-ov"><span>Web Design</span></div></div>
+    <div class="wi reveal"><img src="https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?auto=format&fit=crop&w=600&q=80" alt="Project 4"><div class="wi-ov"><span>Brand · Campaign</span></div></div>
+    <div class="wi reveal"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&q=80" alt="Project 5"><div class="wi-ov"><span>Identity · Strategy</span></div></div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div class="process-img reveal">
+    <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80" alt="Our process">
+    <div class="p-badge"><strong>48h</strong><span>First brief turnaround</span></div>
+  </div>
+  <div class="reveal">
+    <span class="s-tag">How we work</span>
+    <h2 class="s-title">Our process</h2>
+    <div class="process-steps">
+      <div class="step"><div class="step-n">1</div><div><h4>Discovery & Strategy</h4><p>Deep-dive into your brand, audience and goals. No templates — only tailored strategy.</p></div></div>
+      <div class="step"><div class="step-n">2</div><div><h4>Concept & Design</h4><p>We explore multiple creative directions and present them with full rationale.</p></div></div>
+      <div class="step"><div class="step-n">3</div><div><h4>Build & Launch</h4><p>Development, testing and deployment. We launch with you and measure results.</p></div></div>
+      <div class="step"><div class="step-n">4</div><div><h4>Grow & Iterate</h4><p>Post-launch support, analytics and continuous optimisation. Long-term partnerships.</p></div></div>
+    </div>
+    <a class="btn-grad" href="#contact" style="margin-top:36px;display:inline-block">Start your project →</a>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="contact-inner">
+    <div class="contact-info reveal">
+      <span class="s-tag">Contact</span>
+      <h2 class="s-title">Let's build something great</h2>
+      <p>Tell us about your project. We'll get back within 24 hours with a tailored proposal — no obligations.</p>
+      <div class="contact-detail">
+        <div class="cdet"><strong>Email</strong>hello@luminastudio.co</div>
+        <div class="cdet"><strong>Response time</strong>Within 24 hours</div>
+      </div>
+    </div>
+    <div class="reveal">
+      <form id="contactForm" onsubmit="submitContact(event)">
+        <input type="text" placeholder="Your name" required>
+        <input type="email" placeholder="Email address" required>
+        <select required><option disabled selected value="">Type of project</option><option>Brand Identity</option><option>Web Design</option><option>UI/UX Design</option><option>Full project</option><option>Not sure yet</option></select>
+        <textarea placeholder="Tell us about your project..." required></textarea>
+        <button type="submit" class="btn-grad" style="border:none;width:100%;padding:15px;font-size:15px;cursor:pointer">Send message →</button>
+      </form>
+      <div class="form-ok" id="contactOk">✓ Message received! We'll be in touch within 24 hours.</div>
+    </div>
+  </div>
+</section>
+
+<!-- COOKIE BANNER -->
+<div id="cookieBanner" style="position:fixed;bottom:0;left:0;right:0;z-index:9999;background:rgba(12,12,16,.97);backdrop-filter:blur(12px);border-top:1px solid rgba(124,58,237,.12);padding:18px 64px;display:flex;align-items:center;justify-content:space-between;gap:32px">
+  <p style="font-size:13px;color:#666;max-width:620px;line-height:1.6">🍪 We use cookies to improve your browsing experience, analyse traffic and personalise content. By clicking <strong style="color:#eee">Accept All</strong> you consent to our use of cookies.</p>
+  <div style="display:flex;gap:10px;flex-shrink:0">
+    <button onclick="setCookie('no')" style="background:transparent;border:1px solid rgba(255,255,255,.1);color:#666;padding:9px 22px;font-size:12px;cursor:pointer;font-family:inherit;border-radius:4px">Decline</button>
+    <button onclick="setCookie('yes')" style="background:linear-gradient(135deg,#7c3aed,#ec4899);border:none;color:white;padding:9px 22px;font-size:12px;cursor:pointer;font-family:inherit;font-weight:700;border-radius:4px">Accept All</button>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo">lumina<span>.</span></div>
+      <p>A creative studio building brands and digital experiences for ambitious companies.</p>
+    </div>
+    <div>
+      <h5>Services</h5>
+      <a href="#services">Brand Identity</a>
+      <a href="#services">Web Design</a>
+      <a href="#services">UI/UX</a>
+      <a href="#services">Marketing</a>
+    </div>
+    <div>
+      <h5>Company</h5>
+      <a href="#work">Work</a>
+      <a href="#process">Process</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div>
+      <h5>Get in touch</h5>
+      <a href="mailto:hello@luminastudio.co">hello@luminastudio.co</a>
+      <a href="#contact">Start a project</a>
+    </div>
+  </div>
+  <div class="footer-bot">
+    <p>© 2025 Lumina Studio. All rights reserved.</p>
+    <p>Privacy · Terms</p>
+  </div>
+</footer>
+
+<script>
+const io=new IntersectionObserver(es=>es.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*80);io.unobserve(e.target)}}),{threshold:.07});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+function submitContact(e){e.preventDefault();document.getElementById('contactForm').style.display='none';document.getElementById('contactOk').style.display='block'}
+if(localStorage.getItem('cookies_lu'))document.getElementById('cookieBanner').style.display='none';
+function setCookie(v){localStorage.setItem('cookies_lu',v);document.getElementById('cookieBanner').style.display='none'}
+const esTranslations={
+  'We build brands<br>that <span class="grad">stand out.</span>':'Construimos marcas<br>que <span class="grad">destacan.</span>',
+  'A creative studio specialising in brand identity, web design and digital experiences that move people — and businesses.':'Un estudio creativo especializado en identidad de marca, diseño web y experiencias digitales que mueven personas — y negocios.',
+  'See our work':'Ver nuestro trabajo','Start a project →':'Iniciar un proyecto →',
+  'Available for new projects':'Disponible para nuevos proyectos',
+  'What we do':'Qué hacemos','Full-stack creative<br>for ambitious brands':'Creatividad integral<br>para marcas ambiciosas',
+  'Our Work':'Nuestro Trabajo','Selected projects':'Proyectos seleccionados',
+  'How we work':'Cómo trabajamos','Our process':'Nuestro proceso',
+  'Let\'s build something great':'Construyamos algo grande',
+};
+let lang='en';
+function toggleLang(){
+  lang=lang==='en'?'es':'en';
+  document.getElementById('langBtn').textContent=lang==='en'?'ES':'EN';
+  document.querySelectorAll('[data-es]').forEach(el=>{
+    if(lang==='es'){if(!el.dataset.en)el.dataset.en=el.innerHTML;el.innerHTML=el.dataset.es}
+    else{if(el.dataset.en)el.innerHTML=el.dataset.en}
+  });
+}
+</script>
+</body>
+</html>
