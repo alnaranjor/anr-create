@@ -128,13 +128,15 @@ em { font-style: italic; color: var(--gold); }
   height: 72px; gap: 2rem;
 }
 .nav-logo {
-  font-family: var(--serif);
-  font-size: 1.25rem; font-weight: 700;
-  letter-spacing: .04em;
   flex-shrink: 0;
+  display: flex; align-items: center;
 }
-.logo-anr { color: var(--white); }
-.logo-creative { color: var(--gold); }
+.nav-logo-img {
+  height: 44px;
+  width: auto;
+  display: block;
+  mix-blend-mode: multiply;
+}
 
 .nav-links {
   display: flex; gap: 2.5rem; margin-left: auto;
@@ -259,6 +261,19 @@ section {
 }
 #particles-js {
   position: absolute; inset: 0; z-index: 0;
+}
+.hero-logo-watermark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(300px, 55vw, 620px);
+  height: auto;
+  opacity: 0.07;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
 }
 .hero-content {
   position: relative; z-index: 2;
