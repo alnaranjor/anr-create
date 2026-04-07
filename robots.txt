@@ -6,4 +6,4 @@ User-agent: Googlebot
 Allow: /
 Crawl-delay: 5
 
-Sitemap: https://anrcreative.es/sitemap.xml
+Sitemap: https://anrcreate.com/sitemap.xml
