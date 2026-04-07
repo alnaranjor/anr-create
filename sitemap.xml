@@ -3,17 +3,56 @@
   xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml"
   xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- Página principal — Español (default) -->
   <url>
     <loc>https://anrcreate.com/</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://anrcreate.com/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://anrcreate.com/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://anrcreate.com/"/>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://anrcreate.com/?lang=en"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://anrcreate.com/"/>
-    <lastmod>2025-04-07</lastmod>
+    <lastmod>2026-04-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
     <image:image>
       <image:loc>https://anrcreate.com/assets/logo.png</image:loc>
       <image:title>ANR Create — Diseño Web Profesional</image:title>
+      <image:caption>Estudio de diseño web profesional especializado en páginas web para empresas, autónomos y negocios.</image:caption>
     </image:image>
   </url>
+
+  <!-- Main page — English -->
+  <url>
+    <loc>https://anrcreate.com/?lang=en</loc>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://anrcreate.com/"/>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://anrcreate.com/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://anrcreate.com/"/>
+    <lastmod>2026-04-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Demo: APEX Premium Fitness Studio -->
+  <url>
+    <loc>https://anrcreate.com/demos/apex/</loc>
+    <lastmod>2026-04-07</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- Demo: FORMA Architecture Studio -->
+  <url>
+    <loc>https://anrcreate.com/demos/forma/</loc>
+    <lastmod>2026-04-07</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- Demo: Atelier Luna Floristería -->
+  <url>
+    <loc>https://anrcreate.com/demos/atelier-luna/</loc>
+    <lastmod>2026-04-07</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
 </urlset>

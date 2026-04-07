@@ -1,9 +1,4 @@
 User-agent: *
 Allow: /
-Crawl-delay: 10
-
-User-agent: Googlebot
-Allow: /
-Crawl-delay: 5
 
 Sitemap: https://anrcreate.com/sitemap.xml
