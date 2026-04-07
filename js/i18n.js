@@ -1,14 +1,14 @@
 /* ─────────────────────────────────────────
-   ANR Creative — i18n.js
+   ANR Create — i18n.js
    All ES + EN translations
    ───────────────────────────────────────── */
 
 const TRANSLATIONS = {
   es: {
     /* Meta */
-    'meta.title':       'ANR Creative | Diseño Web Profesional — Páginas Web para Empresas y Negocios',
-    'meta.description': 'ANR Creative es un estudio de diseño web profesional especializado en páginas web para empresas, autónomos y negocios. Diseño elegante, resultados rápidos y soporte continuo. Pide tu presupuesto sin compromiso.',
-    'meta.keywords':    'diseño web profesional, desarrollo web, agencia web, página web para empresas, diseño web moderno, web corporativa, diseño web a medida, crear página web, estudio diseño web, ANR Creative',
+    'meta.title':       'ANR Create | Diseño Web Profesional — Páginas Web para Empresas y Negocios',
+    'meta.description': 'ANR Create es un estudio de diseño web profesional especializado en páginas web para empresas, autónomos y negocios. Diseño elegante, resultados rápidos y soporte continuo. Pide tu presupuesto sin compromiso.',
+    'meta.keywords':    'diseño web profesional, desarrollo web, agencia web, página web para empresas, diseño web moderno, web corporativa, diseño web a medida, crear página web, estudio diseño web, ANR Create',
 
     /* Skip link */
     'skip': 'Ir al contenido principal',
@@ -30,7 +30,7 @@ const TRANSLATIONS = {
     /* About */
     'about.label': 'Sobre nosotros',
     'about.title': 'Un estudio boutique.<br>Resultados de primera.',
-    'about.body':  'ANR Creative es un estudio de diseño web profesional especializado en páginas web para empresas, autónomos y negocios que quieren crecer online. Hacemos desarrollo web profesional a medida — sin plantillas, sin atajos. Cada proyecto es único: diseño web a medida que refleja la identidad de tu negocio y está optimizado desde el primer día para atraer clientes.',
+    'about.body':  'ANR Create es un estudio de diseño web profesional especializado en páginas web para empresas, autónomos y negocios que quieren crecer online. Hacemos desarrollo web profesional a medida — sin plantillas, sin atajos. Cada proyecto es único: diseño web a medida que refleja la identidad de tu negocio y está optimizado desde el primer día para atraer clientes.',
 
     /* Features */
     'feat.1.title': 'Diseño a medida',
@@ -76,7 +76,7 @@ const TRANSLATIONS = {
 
     /* Contact */
     'contact.label':    'Contacto',
-    'contact.title':    'Contacta con<br><em>ANR Creative</em>',
+    'contact.title':    'Contacta con<br><em>ANR Create</em>',
     'contact.sub':      'Cuéntanos qué necesitas y te enviamos presupuesto sin compromiso.',
     'contact.email':    'Enviar email',
     'contact.whatsapp': 'WhatsApp',
@@ -93,14 +93,14 @@ const TRANSLATIONS = {
 
     /* Footer */
     'footer.tagline': 'Webs que convierten. Diseño que impresiona.',
-    'footer.copy':    'Diseño web profesional | ANR Creative © 2025',
+    'footer.copy':    'Diseño web profesional | ANR Create © 2025',
   },
 
   en: {
     /* Meta */
-    'meta.title':       'ANR Creative | Professional Web Design — Websites for Businesses Worldwide',
-    'meta.description': 'ANR Creative is a professional web design studio specialising in websites for businesses and local companies worldwide. Elegant design, fast delivery and ongoing support. Get a free quote.',
-    'meta.keywords':    'professional web design, web development studio, custom website design, web design agency, small business websites, ANR Creative',
+    'meta.title':       'ANR Create | Professional Web Design — Websites for Businesses Worldwide',
+    'meta.description': 'ANR Create is a professional web design studio specialising in websites for businesses and local companies worldwide. Elegant design, fast delivery and ongoing support. Get a free quote.',
+    'meta.keywords':    'professional web design, web development studio, custom website design, web design agency, small business websites, ANR Create',
 
     /* Skip link */
     'skip': 'Skip to main content',
@@ -122,7 +122,7 @@ const TRANSLATIONS = {
     /* About */
     'about.label': 'About us',
     'about.title': 'A boutique studio.<br>First-class results.',
-    'about.body':  'ANR Creative is a professional web design studio specialising in websites for businesses and companies that want to grow online. We deliver professional web development built to measure — no templates, no shortcuts. Every project is unique: custom web design that reflects your brand identity and is optimised from day one to attract clients.',
+    'about.body':  'ANR Create is a professional web design studio specialising in websites for businesses and companies that want to grow online. We deliver professional web development built to measure — no templates, no shortcuts. Every project is unique: custom web design that reflects your brand identity and is optimised from day one to attract clients.',
 
     /* Features */
     'feat.1.title': 'Custom design',
@@ -168,7 +168,7 @@ const TRANSLATIONS = {
 
     /* Contact */
     'contact.label':    'Contact',
-    'contact.title':    'Contact<br><em>ANR Creative</em>',
+    'contact.title':    'Contact<br><em>ANR Create</em>',
     'contact.sub':      'Tell us about your project — free quote, no strings attached.',
     'contact.email':    'Send email',
     'contact.whatsapp': 'WhatsApp',
@@ -185,6 +185,6 @@ const TRANSLATIONS = {
 
     /* Footer */
     'footer.tagline': 'Websites that convert. Design that impresses.',
-    'footer.copy':    'Professional web design | ANR Creative © 2025',
+    'footer.copy':    'Professional web design | ANR Create © 2025',
   }
 };

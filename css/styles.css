@@ -1,19 +1,19 @@
 /* ─────────────────────────────────────────
-   ANR Creative — styles.css
-   Dark editorial studio aesthetic
+   ANR Create — styles.css
+   Warm cream editorial studio aesthetic
    ───────────────────────────────────────── */
 
 /* ── TOKENS ── */
 :root {
-  --bg:       #0a0a0a;
-  --bg-2:     #111111;
-  --bg-3:     #181818;
-  --surface:  #1e1e1e;
-  --gold:     #c9a96e;
-  --gold-lt:  #e0c48a;
-  --white:    #f5f0e8;
-  --muted:    rgba(245,240,232,0.50);
-  --border:   rgba(245,240,232,0.08);
+  --bg:       #f8f5f0;
+  --bg-2:     #f0e9df;
+  --bg-3:     #e8dfd3;
+  --surface:  #e0d5c8;
+  --gold:     #a07830;
+  --gold-lt:  #8a6820;
+  --white:    #1a1612;
+  --muted:    rgba(26,22,18,0.55);
+  --border:   rgba(26,22,18,0.10);
   --serif:    'Playfair Display', Georgia, serif;
   --sans:     'Inter', system-ui, sans-serif;
   --ease:     cubic-bezier(0.22, 1, 0.36, 1);
@@ -112,12 +112,12 @@ em { font-style: italic; color: var(--gold); }
 .navbar {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   padding: 0 2rem;
-  background: rgba(10,10,10,0);
+  background: rgba(248,245,240,0);
   border-bottom: 1px solid transparent;
   transition: background .4s var(--ease), border-color .4s var(--ease), backdrop-filter .4s;
 }
 .navbar.scrolled {
-  background: rgba(10,10,10,0.92);
+  background: rgba(248,245,240,0.95);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-color: var(--border);
@@ -198,7 +198,7 @@ em { font-style: italic; color: var(--gold); }
 /* Mobile menu */
 .mob-menu {
   position: fixed; inset: 0; z-index: 90;
-  background: rgba(10,10,10,0.97);
+  background: rgba(248,245,240,0.97);
   backdrop-filter: blur(20px);
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
@@ -422,7 +422,7 @@ section {
 }
 .project-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.12);
 }
 .card-visual {
   position: relative; height: 260px;
@@ -484,7 +484,7 @@ section {
   font-family: var(--serif); font-size: 1.75rem; font-weight: 500;
   color: var(--white); line-height: 1; margin-bottom: .25rem;
 }
-.card-sub { font-size: .75rem; color: rgba(245,240,232,0.6); }
+.card-sub { font-size: .75rem; color: rgba(26,22,18,0.55); }
 .card-visual { transition: transform .6s var(--ease); }
 .project-card:hover .card-visual { transform: scale(1.03); }
 
@@ -592,7 +592,7 @@ form { display: flex; flex-direction: column; gap: 1.25rem; }
   resize: none;
 }
 .form-group input::placeholder,
-.form-group textarea::placeholder { color: rgba(245,240,232,0.2); }
+.form-group textarea::placeholder { color: rgba(26,22,18,0.25); }
 .form-group input:focus,
 .form-group textarea:focus {
   border-color: var(--gold);
@@ -639,7 +639,7 @@ footer {
 }
 .footer-container {
   max-width: 1280px; margin: 0 auto;
-  display: grid; grid-template-columns: 1fr auto 1fr;
+  display: grid; grid-template-columns: 1fr auto;
   align-items: center; gap: 2rem;
   padding-bottom: 3rem;
   border-bottom: 1px solid var(--border);
@@ -682,7 +682,7 @@ footer {
 .footer-address a { color: var(--muted); transition: color .3s; }
 .footer-address a:hover { color: var(--gold); }
 .footer-copy {
-  font-size: .72rem; color: rgba(245,240,232,0.25);
+  font-size: .72rem; color: rgba(26,22,18,0.35);
 }
 .scroll-top {
   position: absolute; bottom: 2rem; right: 2rem;

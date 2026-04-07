@@ -1,11 +1,11 @@
 {
-  "name": "ANR Creative",
-  "short_name": "ANR Creative",
+  "name": "ANR Create",
+  "short_name": "ANR Create",
   "description": "Diseño web profesional",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0a0a0a",
-  "theme_color": "#0a0a0a",
+  "background_color": "#f8f5f0",
+  "theme_color": "#f8f5f0",
   "lang": "es",
   "icons": [
     { "src": "/assets/icon-192.png", "sizes": "192x192", "type": "image/png" },
