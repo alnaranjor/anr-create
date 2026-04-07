@@ -66,14 +66,6 @@ const TRANSLATIONS = {
     'proj.3.desc':   'Web bilingüe para floristería boutique en Madrid. Elegante, artesanal y con un sistema de i18n completo ES/EN.',
     'proj.demo':     'Ver demo ↗',
 
-    /* Stats */
-    'why.label':  'Por qué elegirnos',
-    'why.title':  'Números que<br><em>hablan por sí solos.</em>',
-    'stat.1':     'Clientes',
-    'stat.2':     'Días de entrega',
-    'stat.3':     'Personalizado',
-    'stat.4':     'Soporte post-lanzamiento',
-
     /* Contact */
     'contact.label':    'Contacto',
     'contact.title':    'Contacta con<br><em>ANR Create</em>',
@@ -157,14 +149,6 @@ const TRANSLATIONS = {
     'proj.3.sub':    'Boutique florist',
     'proj.3.desc':   'Bilingual website for a boutique florist in Madrid. Elegant, handcrafted and with a complete ES/EN i18n system.',
     'proj.demo':     'View demo ↗',
-
-    /* Stats */
-    'why.label':  'Why choose us',
-    'why.title':  'Numbers that<br><em>speak for themselves.</em>',
-    'stat.1':     'Clients',
-    'stat.2':     'Days to delivery',
-    'stat.3':     'Custom-built',
-    'stat.4':     'Post-launch support',
 
     /* Contact */
     'contact.label':    'Contact',
