@@ -86,6 +86,10 @@ const TRANSLATIONS = {
     /* Footer */
     'footer.tagline': 'Webs que convierten. Diseño que impresiona.',
     'footer.copy':    'Diseño web profesional | ANR Create © 2025',
+
+    /* Cookies */
+    'cookie.text':   'Usamos almacenamiento local para recordar tu idioma. Al navegar aceptas el uso de servicios externos (Google Fonts).',
+    'cookie.accept': 'Entendido',
   },
 
   en: {
@@ -170,5 +174,9 @@ const TRANSLATIONS = {
     /* Footer */
     'footer.tagline': 'Websites that convert. Design that impresses.',
     'footer.copy':    'Professional web design | ANR Create © 2025',
+
+    /* Cookies */
+    'cookie.text':   'We use local storage to remember your language preference. By browsing you accept the use of third-party services (Google Fonts).',
+    'cookie.accept': 'Got it',
   }
 };

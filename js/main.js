@@ -226,6 +226,19 @@ function initForm() {
   });
 }
 
+/* ── COOKIE BANNER ── */
+function initCookieBanner() {
+  const banner = document.getElementById('cookieBanner');
+  const btn    = document.getElementById('cookieAccept');
+  if (!banner || !btn) return;
+  if (localStorage.getItem('anr_cookies')) return;
+  setTimeout(() => banner.classList.add('visible'), 1200);
+  btn.addEventListener('click', () => {
+    localStorage.setItem('anr_cookies', '1');
+    banner.classList.remove('visible');
+  });
+}
+
 /* ── INIT ── */
 document.addEventListener('DOMContentLoaded', () => {
   const lang = detectInitialLang();
@@ -241,6 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCursor();
   initScrollTop();
   initForm();
+  initCookieBanner();
 
   // Particles init — wait for tsParticles CDN to load
   if (typeof tsParticles !== 'undefined') {
