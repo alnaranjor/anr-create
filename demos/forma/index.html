@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FORMA — Architecture Studio</title>
+  <meta name="description" content="FORMA is an architecture studio dedicated to the art of spatial design.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <style>
+    /* ─── TOKENS ─── */
+    :root {
+      --bg:       #F5F0E8;
+      --bg-alt:   #EDE8DE;
+      --bg-card:  #E8E1D4;
+      --text:     #1C1A17;
+      --muted:    #6B6459;
+      --accent:   #8B7355;
+      --sage:     #4A5240;
+      --white:    #FDFBF8;
+      --border:   rgba(28,26,23,0.10);
+      --serif:    'Cormorant Garamond', Georgia, serif;
+      --sans:     'DM Sans', system-ui, sans-serif;
+      --spring:   cubic-bezier(0.32,0.72,0,1);
+      --out:      cubic-bezier(0.22,1,0.36,1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    img { display: block; max-width: 100%; }
+    a   { text-decoration: none; color: inherit; }
+    button { font-family: var(--sans); }
+
+    /* ─── GRAIN OVERLAY (fixed, no GPU scroll cost) ─── */
+    body::after {
+      content: '';
+      position: fixed; inset: 0; z-index: 999;
+      pointer-events: none;
+      opacity: 0.028;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 300px 300px;
+    }
+
+    /* ─── REVEAL UTILITY ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(36px);
+      filter: blur(6px);
+      transition:
+        opacity  0.9s var(--out),
+        transform 0.9s var(--spring),
+        filter   0.9s var(--out);
+    }
+    .reveal.visible { opacity:1; transform:translateY(0); filter:blur(0); }
+    .d1 { transition-delay: .10s; }
+    .d2 { transition-delay: .20s; }
+    .d3 { transition-delay: .30s; }
+    .d4 { transition-delay: .40s; }
+    .d5 { transition-delay: .50s; }
+
+    /* ────────────────────────────
+       NAV
+    ──────────────────────────── */
+    .nav-wrap {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 60;
+      display: flex; justify-content: center;
+      padding: 1.5rem 1rem;
+      pointer-events: none;
+    }
+
+    nav.pill {
+      pointer-events: all;
+      display: flex; align-items: center;
+      background: rgba(245,240,232,0.80);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--border);
+      border-radius: 9999px;
+      padding: 0.55rem 0.75rem 0.55rem 1.5rem;
+      gap: 0;
+      transition: all 0.5s var(--spring);
+      box-shadow: 0 4px 24px rgba(28,26,23,0.06);
+    }
+
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-right: 2.5rem;
+    }
+
+    .nav-links {
+      display: flex; align-items: center;
+      gap: 2rem; list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--muted);
+      position: relative;
+      transition: color 0.3s var(--out);
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute; bottom: -3px; left: 0;
+      width: 0; height: 1px;
+      background: var(--accent);
+      transition: width 0.4s var(--out);
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-right {
+      display: flex; align-items: center;
+      gap: 0.625rem; margin-left: 2rem;
+    }
+
+    /* Language toggle */
+    .lang-toggle {
+      display: flex; align-items: center;
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 9999px;
+      padding: 3px;
+    }
+    .lang-btn {
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.22rem 0.65rem;
+      border-radius: 9999px; border: none;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.3s var(--out);
+    }
+    .lang-btn.active {
+      background: var(--text);
+      color: var(--white);
+    }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      width: 2.5rem; height: 2.5rem;
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 9999px;
+      cursor: pointer;
+      position: relative;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .hamburger span {
+      position: absolute;
+      width: 1rem; height: 1px;
+      background: var(--text);
+      transition: all 0.4s var(--spring);
+    }
+    .hamburger span:first-child { transform: translateY(-4px); }
+    .hamburger span:last-child  { transform: translateY(4px);  }
+    .hamburger.open span:first-child { transform: translateY(0) rotate(45deg);  }
+    .hamburger.open span:last-child  { transform: translateY(0) rotate(-45deg); }
+
+    /* ─── MOBILE MENU ─── */
+    .mobile-menu {
+      position: fixed; inset: 0; z-index: 55;
+      background: rgba(245,240,232,0.97);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.4s var(--out);
+    }
+    .mobile-menu.open { opacity: 1; pointer-events: all; }
+
+    .mobile-menu ul { list-style: none; text-align: center; }
+    .mobile-menu ul li {
+      opacity: 0; transform: translateY(18px);
+      transition: opacity 0.5s var(--out), transform 0.5s var(--spring);
+    }
+    .mobile-menu.open ul li { opacity:1; transform:translateY(0); }
+    .mobile-menu.open ul li:nth-child(1) { transition-delay:.08s; }
+    .mobile-menu.open ul li:nth-child(2) { transition-delay:.13s; }
+    .mobile-menu.open ul li:nth-child(3) { transition-delay:.18s; }
+    .mobile-menu.open ul li:nth-child(4) { transition-delay:.23s; }
+    .mobile-menu.open ul li:nth-child(5) { transition-delay:.28s; }
+
+    .mobile-menu ul li a {
+      font-family: var(--serif);
+      font-size: clamp(2.5rem,9vw,4.5rem);
+      font-weight: 300;
+      color: var(--text);
+      display: block;
+      padding: 0.35rem 0;
+      transition: color 0.3s;
+    }
+    .mobile-menu ul li a:hover { color: var(--accent); }
+
+    .mobile-lang {
+      margin-top: 2.5rem;
+      opacity: 0; transform: translateY(10px);
+      transition: opacity 0.5s var(--out) 0.38s, transform 0.5s var(--spring) 0.38s;
+    }
+    .mobile-menu.open .mobile-lang { opacity:1; transform:translateY(0); }
+
+    /* ────────────────────────────
+       HERO
+    ──────────────────────────── */
+    #hero {
+      min-height: 100dvh;
+      display: flex; flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 4rem 5rem;
+      position: relative; overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+    }
+    .hero-bg img {
+      width:100%; height:100%;
+      object-fit: cover;
+      object-position: center;
+      filter: brightness(0.48) saturate(0.65);
+      will-change: transform;
+    }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 940px;
+    }
+
+    .eyebrow-tag {
+      display: inline-flex; align-items: center; gap: 0.75rem;
+      font-size: 0.62rem; font-weight: 500;
+      letter-spacing: 0.28em; text-transform: uppercase;
+      color: rgba(253,251,248,0.55);
+      margin-bottom: 1.5rem;
+    }
+    .eyebrow-tag::before {
+      content: ''; display: block;
+      width: 2.5rem; height: 1px;
+      background: rgba(253,251,248,0.35);
+    }
+
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(3.5rem, 8.5vw, 8rem);
+      font-weight: 300;
+      line-height: 1.04;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      margin-bottom: 2rem;
+    }
+    .hero-title em { font-style: italic; }
+
+    .hero-sub {
+      font-size: 1rem; font-weight: 300;
+      color: rgba(253,251,248,0.6);
+      max-width: 460px;
+      line-height: 1.8;
+      margin-bottom: 3rem;
+    }
+
+    /* Primary CTA Button */
+    .btn-cta {
+      display: inline-flex; align-items: center; gap: 0.75rem;
+      background: var(--white); color: var(--text);
+      font-size: 0.72rem; font-weight: 500;
+      letter-spacing: 0.09em; text-transform: uppercase;
+      padding: 0.875rem 0.875rem 0.875rem 1.75rem;
+      border-radius: 9999px; border: none;
+      cursor: pointer;
+      transition: all 0.4s var(--spring);
+    }
+    .btn-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(28,26,23,0.18); }
+    .btn-cta:active { transform: scale(0.97); }
+
+    .btn-icon {
+      width: 2rem; height: 2rem;
+      border-radius: 9999px;
+      background: rgba(28,26,23,0.07);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem;
+      transition: transform 0.4s var(--spring);
+    }
+    .btn-cta:hover .btn-icon { transform: translate(2px,-2px) scale(1.12); }
+
+    .hero-scroll-hint {
+      position: absolute; bottom: 2.5rem; right: 4rem; z-index: 2;
+      font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: rgba(253,251,248,0.35);
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+    }
+
+    /* ────────────────────────────
+       MARQUEE
+    ──────────────────────────── */
+    .marquee-wrap {
+      overflow: hidden;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 1.25rem 0;
+      background: var(--bg);
+    }
+    .marquee-track {
+      display: flex; gap: 3.5rem;
+      width: max-content;
+      animation: marquee 32s linear infinite;
+    }
+    .marquee-track:hover { animation-play-state: paused; }
+
+    .marquee-item {
+      font-family: var(--serif);
+      font-size: 0.875rem; font-style: italic;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      display: flex; align-items: center; gap: 3.5rem;
+    }
+    .marquee-dot {
+      width: 4px; height: 4px;
+      border-radius: 50%; background: var(--accent);
+      flex-shrink: 0;
+    }
+    @keyframes marquee {
+      from { transform: translateX(0);    }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ────────────────────────────
+       SECTION COMMONS
+    ──────────────────────────── */
+    .section-wrap { padding: 8rem 4rem; }
+
+    .s-eyebrow {
+      display: inline-flex; align-items: center;
+      font-size: 0.62rem; font-weight: 500;
+      letter-spacing: 0.26em; text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(139,115,85,0.09);
+      padding: 0.32rem 0.875rem;
+      border-radius: 9999px;
+      margin-bottom: 2rem;
+    }
+    .s-title {
+      font-family: var(--serif);
+      font-size: clamp(2.5rem,5vw,4.5rem);
+      font-weight: 300;
+      line-height: 1.1;
+      letter-spacing: -0.015em;
+      color: var(--text);
+    }
+    .s-title em { font-style: italic; }
+
+    /* Double-Bezel image container */
+    .bezel-outer {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 7px;
+      border-radius: 1.5rem;
+    }
+    .bezel-inner {
+      border-radius: calc(1.5rem - 7px);
+      overflow: hidden;
+      box-shadow: inset 0 1px 1px rgba(255,255,255,0.45);
+    }
+    .bezel-inner img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 1.2s var(--spring);
+    }
+    .bezel-outer:hover .bezel-inner img { transform: scale(1.04); }
+
+    /* ────────────────────────────
+       ABOUT
+    ──────────────────────────── */
+    #about { padding: 9rem 4rem; }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7rem;
+      align-items: center;
+    }
+    .about-body {
+      font-size: 1.0625rem;
+      color: var(--muted);
+      line-height: 1.88;
+      margin-top: 2rem;
+      max-width: 480px;
+    }
+    .about-stats {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 2rem;
+      margin-top: 4rem;
+      padding-top: 3rem;
+      border-top: 1px solid var(--border);
+    }
+    .stat-n {
+      font-family: var(--serif);
+      font-size: 3rem; font-weight: 300;
+      line-height: 1; color: var(--text);
+    }
+    .stat-l {
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 0.4rem;
+    }
+    .about-img { position: relative; }
+    .about-img .bezel-inner img { aspect-ratio: 4/5; }
+
+    /* ────────────────────────────
+       PROJECTS
+    ──────────────────────────── */
+    #projects {
+      background: var(--text);
+      padding: 9rem 4rem;
+    }
+    #projects .s-eyebrow {
+      color: rgba(139,115,85,0.85);
+      background: rgba(139,115,85,0.12);
+    }
+    #projects .s-title { color: var(--white); }
+
+    .projects-hd {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 5rem;
+    }
+    .projects-count {
+      font-family: var(--serif);
+      font-size: 0.875rem; font-style: italic;
+      color: rgba(253,251,248,0.3);
+      padding-bottom: 0.35rem;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+
+    /* Asymmetric layout */
+    .pc-1 { grid-column: 1 / 3; }
+    .pc-6 { grid-column: 1 / 4; }
+
+    .p-card {
+      display: block; cursor: pointer;
+    }
+    .p-bezel {
+      background: rgba(255,255,255,0.035);
+      border: 1px solid rgba(255,255,255,0.07);
+      padding: 5px; border-radius: 1.125rem;
+      transition: all 0.5s var(--spring);
+    }
+    .p-card:hover .p-bezel {
+      background: rgba(255,255,255,0.065);
+      border-color: rgba(255,255,255,0.14);
+    }
+    .p-inner {
+      border-radius: calc(1.125rem - 5px);
+      overflow: hidden; position: relative;
+    }
+    .p-inner img {
+      width: 100%; display: block;
+      object-fit: cover;
+      transition: transform 0.9s var(--spring);
+    }
+    .pc-1 .p-inner img  { height: 460px; }
+    .pc-6 .p-inner img  { height: 300px; }
+    .p-card:not(.pc-1):not(.pc-6) .p-inner img { height: 280px; }
+
+    .p-card:hover .p-inner img { transform: scale(1.045); }
+
+    .p-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(10,8,5,0.72) 0%, transparent 55%);
+      padding: 1.5rem;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      opacity: 0.85;
+      transition: opacity 0.4s;
+    }
+    .p-card:hover .p-overlay { opacity: 1; }
+
+    .p-type {
+      font-size: 0.58rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(253,251,248,0.5);
+      margin-bottom: 0.35rem;
+    }
+    .p-name {
+      font-family: var(--serif);
+      font-size: 1.25rem; font-weight: 400;
+      color: var(--white); line-height: 1.25;
+    }
+    .p-year {
+      font-size: 0.68rem;
+      color: rgba(253,251,248,0.4);
+      margin-top: 0.3rem;
+    }
+
+    /* ────────────────────────────
+       SERVICES
+    ──────────────────────────── */
+    #services { padding: 9rem 4rem; }
+
+    .srv-grid {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 1.5rem;
+      margin-top: 4rem;
+    }
+    .srv-outer {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      padding: 5px; border-radius: 1.5rem;
+    }
+    .srv-inner {
+      background: var(--bg);
+      border-radius: calc(1.5rem - 5px);
+      padding: 2.5rem 1.875rem;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.55);
+      transition: all 0.4s var(--spring);
+      height: 100%;
+    }
+    .srv-outer:hover .srv-inner { background: var(--white); }
+
+    .srv-num {
+      font-family: var(--serif);
+      font-size: 0.72rem;
+      color: var(--accent);
+      font-style: italic;
+      margin-bottom: 1.875rem;
+      display: block;
+    }
+    .srv-icon {
+      width: 2.25rem; height: 2.25rem;
+      margin-bottom: 1.25rem;
+      color: var(--text); opacity: 0.6;
+    }
+    .srv-title {
+      font-family: var(--serif);
+      font-size: 1.25rem; font-weight: 400;
+      color: var(--text); line-height: 1.3;
+      margin-bottom: 0.875rem;
+    }
+    .srv-desc {
+      font-size: 0.85rem;
+      color: var(--muted); line-height: 1.78;
+    }
+
+    /* ────────────────────────────
+       PROCESS
+    ──────────────────────────── */
+    #process { background: var(--bg-alt); padding: 9rem 4rem; }
+
+    .proc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 5rem;
+      margin-top: 5rem;
+    }
+    .proc-step {
+      padding: 2.75rem 0;
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 3rem 1fr;
+      gap: 1.75rem;
+      align-items: start;
+      transition: border-color 0.4s var(--out);
+    }
+    .proc-step:hover { border-top-color: var(--accent); }
+
+    .step-n {
+      font-family: var(--serif);
+      font-size: 2.25rem; font-weight: 300;
+      color: rgba(28,26,23,0.14);
+      line-height: 1; font-style: italic;
+    }
+    .step-t {
+      font-family: var(--serif);
+      font-size: 1.5rem; font-weight: 400;
+      color: var(--text); margin-bottom: 0.625rem;
+    }
+    .step-d {
+      font-size: 0.875rem;
+      color: var(--muted); line-height: 1.78;
+    }
+
+    /* ────────────────────────────
+       CONTACT
+    ──────────────────────────── */
+    #contact { padding: 9rem 4rem; }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 8rem;
+      margin-top: 4rem;
+    }
+    .contact-quote {
+      font-family: var(--serif);
+      font-size: clamp(1.5rem,2.8vw,2.25rem);
+      font-weight: 300;
+      line-height: 1.4;
+      color: var(--text); font-style: italic;
+      margin-top: 1.5rem;
+    }
+    .contact-note {
+      font-size: 0.875rem;
+      color: var(--muted); line-height: 1.8;
+      margin-top: 2rem;
+    }
+
+    .c-form {
+      display: flex; flex-direction: column; gap: 1.25rem;
+    }
+    .form-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;
+    }
+    .f-group {
+      display: flex; flex-direction: column; gap: 0.45rem;
+    }
+    .f-group label {
+      font-size: 0.62rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .f-group input,
+    .f-group select,
+    .f-group textarea {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 0.75rem;
+      padding: 0.875rem 1rem;
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: var(--text);
+      outline: none;
+      width: 100%;
+      transition: all 0.3s var(--out);
+    }
+    .f-group select { appearance: none; cursor: pointer; }
+    .f-group input:focus,
+    .f-group select:focus,
+    .f-group textarea:focus {
+      border-color: var(--accent);
+      background: var(--white);
+      box-shadow: 0 0 0 3px rgba(139,115,85,0.10);
+    }
+    .f-group textarea { resize: none; min-height: 120px; }
+
+    .btn-submit {
+      align-self: flex-start;
+      display: inline-flex; align-items: center; gap: 0.75rem;
+      background: var(--text); color: var(--white);
+      font-size: 0.72rem; font-weight: 500;
+      letter-spacing: 0.09em; text-transform: uppercase;
+      padding: 0.875rem 0.875rem 0.875rem 1.75rem;
+      border-radius: 9999px; border: none;
+      cursor: pointer;
+      transition: all 0.4s var(--spring);
+      margin-top: 0.5rem;
+    }
+    .btn-submit .btn-icon { background: rgba(253,251,248,0.1); }
+    .btn-submit:hover { background: var(--sage); transform: translateY(-2px); }
+    .btn-submit:hover .btn-icon { transform: translate(2px,-2px) scale(1.12); }
+    .btn-submit:active { transform: scale(0.97); }
+
+    /* ────────────────────────────
+       FOOTER
+    ──────────────────────────── */
+    footer {
+      background: var(--text);
+      padding: 4rem;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: end;
+      gap: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .ft-logo {
+      font-family: var(--serif);
+      font-size: 1.5rem; font-weight: 500;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--white);
+    }
+    .ft-tagline {
+      font-family: var(--serif);
+      font-size: 0.85rem; font-style: italic;
+      color: rgba(253,251,248,0.32);
+      margin-top: 0.4rem;
+    }
+    .ft-nav {
+      display: flex; flex-direction: row;
+      gap: 2rem; align-items: center;
+    }
+    .ft-nav a {
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(253,251,248,0.35);
+      transition: color 0.3s;
+    }
+    .ft-nav a:hover { color: var(--white); }
+    .ft-right { text-align: right; }
+    .ft-copy {
+      font-size: 0.68rem;
+      color: rgba(253,251,248,0.22);
+      letter-spacing: 0.06em;
+    }
+
+    /* ────────────────────────────
+       RESPONSIVE
+    ──────────────────────────── */
+    @media (max-width: 1100px) {
+      .srv-grid { grid-template-columns: repeat(2,1fr); }
+      .pc-1 { grid-column: 1 / 3; }
+      .pc-6 { grid-column: 1 / 3; }
+      .projects-grid { grid-template-columns: repeat(2,1fr); }
+    }
+
+    @media (max-width: 768px) {
+      .section-wrap, #about, #projects, #services, #process, #contact {
+        padding: 5rem 1.5rem;
+      }
+      #hero { padding: 0 1.5rem 4rem; }
+
+      .nav-links { display: none; }
+      .nav-logo  { margin-right: 0; }
+      .nav-right { margin-left: auto; }
+      .lang-toggle { display: none; }
+      .hamburger { display: flex; }
+
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .about-stats { grid-template-columns: repeat(3,1fr); gap: 1rem; }
+
+      .projects-grid { grid-template-columns: 1fr; }
+      .pc-1, .pc-6   { grid-column: 1; }
+      .pc-1 .p-inner img { height: 340px; }
+      .pc-6 .p-inner img { height: 220px; }
+      .p-card:not(.pc-1):not(.pc-6) .p-inner img { height: 240px; }
+
+      .srv-grid { grid-template-columns: 1fr; }
+      .proc-grid { grid-template-columns: 1fr; gap: 0; }
+      .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .form-row { grid-template-columns: 1fr; }
+
+      footer {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+        padding: 3rem 1.5rem;
+      }
+      .ft-nav { flex-wrap: wrap; gap: 1.25rem; }
+      .ft-right { text-align: left; }
+      .hero-scroll-hint { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════ NAV ══════════ -->
+<div class="nav-wrap">
+  <nav class="pill">
+    <a href="#" class="nav-logo" data-i="nav.logo">FORMA</a>
+    <ul class="nav-links">
+      <li><a href="#projects" data-i="nav.work">Work</a></li>
+      <li><a href="#about"    data-i="nav.studio">Studio</a></li>
+      <li><a href="#services" data-i="nav.services">Services</a></li>
+      <li><a href="#process"  data-i="nav.process">Process</a></li>
+      <li><a href="#contact"  data-i="nav.contact">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="lang-toggle">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn"        data-lang="es">ES</button>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span>
+      </button>
+    </div>
+  </nav>
+</div>
+
+<!-- ══════════ MOBILE MENU ══════════ -->
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="#projects" data-i="nav.work">Work</a></li>
+    <li><a href="#about"    data-i="nav.studio">Studio</a></li>
+    <li><a href="#services" data-i="nav.services">Services</a></li>
+    <li><a href="#process"  data-i="nav.process">Process</a></li>
+    <li><a href="#contact"  data-i="nav.contact">Contact</a></li>
+  </ul>
+  <div class="mobile-lang lang-toggle">
+    <button class="lang-btn active" data-lang="en">EN</button>
+    <button class="lang-btn"        data-lang="es">ES</button>
+  </div>
+</div>
+
+<!-- ══════════ HERO ══════════ -->
+<section id="hero">
+  <div class="hero-bg">
+    <img
+      src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=1920&q=80&auto=format&fit=crop"
+      alt="FORMA Architecture"
+      loading="eager"
+    >
+  </div>
+  <div class="hero-content">
+    <p class="eyebrow-tag reveal"    data-i="hero.eyebrow">Architecture Studio</p>
+    <h1 class="hero-title reveal d1" data-i="hero.title">Shaping Space.<br><em>Defining Experience.</em></h1>
+    <p class="hero-sub reveal d2"    data-i="hero.sub">We design spaces that transcend function — environments that speak, breathe, and endure.</p>
+    <a href="#projects" class="btn-cta reveal d3">
+      <span data-i="hero.cta">View Our Work</span>
+      <span class="btn-icon">↗</span>
+    </a>
+  </div>
+  <span class="hero-scroll-hint" data-i="hero.scroll">Scroll</span>
+</section>
+
+<!-- ══════════ MARQUEE ══════════ -->
+<div class="marquee-wrap" aria-hidden="true">
+  <div class="marquee-track">
+    <span class="marquee-item">Architectural Design <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Interior Architecture <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Urban Consultancy <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Heritage Renovation <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Material Research <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Spatial Strategy <span class="marquee-dot"></span></span>
+    <!-- duplicate for seamless loop -->
+    <span class="marquee-item">Architectural Design <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Interior Architecture <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Urban Consultancy <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Heritage Renovation <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Material Research <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Spatial Strategy <span class="marquee-dot"></span></span>
+  </div>
+</div>
+
+<!-- ══════════ ABOUT ══════════ -->
+<section id="about">
+  <div class="about-grid">
+
+    <div class="about-left">
+      <span class="s-eyebrow reveal"    data-i="about.eyebrow">The Studio</span>
+      <h2 class="s-title reveal d1"     data-i="about.title">Architecture as a<br><em>lived discipline</em></h2>
+      <p class="about-body reveal d2"   data-i="about.body">
+        FORMA is an architecture studio dedicated to the art of spatial design. We approach each commission as an opportunity to create something that outlasts trends — built on honesty of material, clarity of purpose, and precision of form.
+      </p>
+      <div class="about-stats">
+        <div class="reveal d2">
+          <div class="stat-n" data-i="about.s1n">18+</div>
+          <div class="stat-l" data-i="about.s1l">Years of Practice</div>
+        </div>
+        <div class="reveal d3">
+          <div class="stat-n" data-i="about.s2n">240</div>
+          <div class="stat-l" data-i="about.s2l">Projects Delivered</div>
+        </div>
+        <div class="reveal d4">
+          <div class="stat-n" data-i="about.s3n">14</div>
+          <div class="stat-l" data-i="about.s3l">Design Awards</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-img reveal d2">
+      <div class="bezel-outer">
+        <div class="bezel-inner">
+          <img
+            src="https://images.unsplash.com/photo-1503174971373-b1f69850bded?w=900&q=80&auto=format&fit=crop"
+            alt="FORMA studio space"
+          >
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════ PROJECTS ══════════ -->
+<section id="projects">
+  <div class="projects-hd">
+    <div>
+      <span class="s-eyebrow reveal"    data-i="proj.eyebrow">Selected Work</span>
+      <h2 class="s-title reveal d1"     data-i="proj.title">Built to<br><em>endure</em></h2>
+    </div>
+    <span class="projects-count reveal" data-i="proj.count">06 Projects</span>
+  </div>
+
+  <div class="projects-grid">
+
+    <!-- Card 1 — wide -->
+    <a href="#" class="p-card pc-1 reveal">
+      <div class="p-bezel">
+        <div class="p-inner">
+          <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1000&q=80&auto=format&fit=crop" alt="Residential Compound">
+          <div class="p-overlay">
+            <span class="p-type" data-i="proj.p1.type">Residential</span>
+            <h3 class="p-name"   data-i="proj.p1.name">Residential Compound</h3>
+            <span class="p-year">2024</span>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <!-- Card 2 -->
+    <a href="#" class="p-card reveal d1">
+      <div class="p-bezel">
+        <div class="p-inner">
+          <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=700&q=80&auto=format&fit=crop" alt="Cultural Pavilion">
+          <div class="p-overlay">
+            <span class="p-type" data-i="proj.p2.type">Cultural</span>
+            <h3 class="p-name"   data-i="proj.p2.name">Cultural Pavilion</h3>
+            <span class="p-year">2023</span>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <!-- Card 3 -->
+    <a href="#" class="p-card reveal d1">
+      <div class="p-bezel">
+        <div class="p-inner">
+          <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=700&q=80&auto=format&fit=crop" alt="Corporate Campus">
+          <div class="p-overlay">
+            <span class="p-type" data-i="proj.p3.type">Corporate</span>
+            <h3 class="p-name"   data-i="proj.p3.name">Corporate Campus</h3>
+            <span class="p-year">2023</span>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <!-- Card 4 -->
+    <a href="#" class="p-card reveal d2">
+      <div class="p-bezel">
+        <div class="p-inner">
+          <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=700&q=80&auto=format&fit=crop" alt="Private Residence">
+          <div class="p-overlay">
+            <span class="p-type" data-i="proj.p4.type">Residential</span>
+            <h3 class="p-name"   data-i="proj.p4.name">Private Residence</h3>
+            <span class="p-year">2022</span>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <!-- Card 5 -->
+    <a href="#" class="p-card reveal d3">
+      <div class="p-bezel">
+        <div class="p-inner">
+          <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=700&q=80&auto=format&fit=crop" alt="Mixed-Use Tower">
+          <div class="p-overlay">
+            <span class="p-type" data-i="proj.p5.type">Mixed-Use</span>
+            <h3 class="p-name"   data-i="proj.p5.name">Mixed-Use Tower</h3>
+            <span class="p-year">2022</span>
+          </div>
+        </div>
+      </div>
+    </a>
+
+
+  </div>
+</section>
+
+<!-- ══════════ SERVICES ══════════ -->
+<section id="services" class="section-wrap">
+  <span class="s-eyebrow reveal"  data-i="srv.eyebrow">What We Do</span>
+  <h2 class="s-title reveal d1"   data-i="srv.title">Our practice<br><em>areas</em></h2>
+
+  <div class="srv-grid">
+
+    <div class="srv-outer reveal d1">
+      <div class="srv-inner">
+        <span class="srv-num">01</span>
+        <svg class="srv-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+          <polyline points="9,22 9,12 15,12 15,22"/>
+        </svg>
+        <h3 class="srv-title" data-i="srv.s1t">Architectural Design</h3>
+        <p class="srv-desc"   data-i="srv.s1d">Full-spectrum design services from brief to completion — residential, cultural, and commercial typologies with equal rigour.</p>
+      </div>
+    </div>
+
+    <div class="srv-outer reveal d2">
+      <div class="srv-inner">
+        <span class="srv-num">02</span>
+        <svg class="srv-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round">
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+          <path d="M3 9h18M9 21V9"/>
+        </svg>
+        <h3 class="srv-title" data-i="srv.s2t">Interior Architecture</h3>
+        <p class="srv-desc"   data-i="srv.s2d">Thoughtful spatial programming and material curation — interiors that feel considered, layered, and entirely coherent.</p>
+      </div>
+    </div>
+
+    <div class="srv-outer reveal d3">
+      <div class="srv-inner">
+        <span class="srv-num">03</span>
+        <svg class="srv-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round">
+          <polygon points="3,11 12,2 21,11 21,21 3,21"/>
+          <path d="M9 21V15h6v6"/>
+        </svg>
+        <h3 class="srv-title" data-i="srv.s3t">Urban Consultancy</h3>
+        <p class="srv-desc"   data-i="srv.s3d">Strategic guidance on urban morphology, public space activation, and mixed-use density for developers and civic bodies.</p>
+      </div>
+    </div>
+
+    <div class="srv-outer reveal d4">
+      <div class="srv-inner">
+        <span class="srv-num">04</span>
+        <svg class="srv-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round">
+          <path d="M4 6h16M4 10h16M4 14h9"/>
+          <circle cx="17" cy="17" r="3"/>
+          <path d="M17 14v3l2 2"/>
+        </svg>
+        <h3 class="srv-title" data-i="srv.s4t">Heritage Renovation</h3>
+        <p class="srv-desc"   data-i="srv.s4d">Sensitive intervention within existing fabric — preserving historical integrity while unlocking contemporary relevance.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════ PROCESS ══════════ -->
+<section id="process" class="section-wrap">
+  <span class="s-eyebrow reveal"  data-i="proc.eyebrow">How We Work</span>
+  <h2 class="s-title reveal d1"   data-i="proc.title">A method built<br><em>on clarity</em></h2>
+
+  <div class="proc-grid">
+
+    <div class="proc-step reveal d1">
+      <span class="step-n">01</span>
+      <div>
+        <h3 class="step-t" data-i="proc.s1t">Discovery</h3>
+        <p class="step-d"  data-i="proc.s1d">Brief analysis, site research, and stakeholder alignment. We listen before we draw — understanding context as deeply as programme.</p>
+      </div>
+    </div>
+
+    <div class="proc-step reveal d2">
+      <span class="step-n">02</span>
+      <div>
+        <h3 class="step-t" data-i="proc.s2t">Concept</h3>
+        <p class="step-d"  data-i="proc.s2d">Spatial narratives, material studies, and schematic design. Ideas tested at scale — refined until they earn their place.</p>
+      </div>
+    </div>
+
+    <div class="proc-step reveal d3">
+      <span class="step-n">03</span>
+      <div>
+        <h3 class="step-t" data-i="proc.s3t">Development</h3>
+        <p class="step-d"  data-i="proc.s3d">Technical refinement, engineering coordination, and full documentation. Every detail resolved before it reaches the site.</p>
+      </div>
+    </div>
+
+    <div class="proc-step reveal d4">
+      <span class="step-n">04</span>
+      <div>
+        <h3 class="step-t" data-i="proc.s4t">Delivery</h3>
+        <p class="step-d"  data-i="proc.s4d">Construction oversight, quality assurance, and formal handover. We remain present until the work is exactly as intended.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════ CONTACT ══════════ -->
+<section id="contact" class="section-wrap">
+  <span class="s-eyebrow reveal" data-i="cta.eyebrow">Get In Touch</span>
+
+  <div class="contact-grid">
+
+    <div class="contact-left">
+      <h2 class="s-title reveal"           data-i="cta.title">Start a<br><em>conversation</em></h2>
+      <p class="contact-quote reveal d1"   data-i="cta.quote">"Every great project begins with a single, honest question."</p>
+      <p class="contact-note reveal d2"    data-i="cta.note">We review every enquiry personally and respond within two working days. We welcome both commissions and collaborations.</p>
+    </div>
+
+    <div class="reveal d2">
+      <form class="c-form" id="contactForm">
+
+        <div class="form-row">
+          <div class="f-group">
+            <label data-i="cta.fname">Name</label>
+            <input type="text" required placeholder="—">
+          </div>
+          <div class="f-group">
+            <label data-i="cta.femail">Email</label>
+            <input type="email" required placeholder="—">
+          </div>
+        </div>
+
+        <div class="f-group">
+          <label data-i="cta.ftype">Project Type</label>
+          <select>
+            <option value=""          data-i="cta.fsel">Select a category</option>
+            <option value="residential" data-i="cta.fo1">Residential</option>
+            <option value="commercial"  data-i="cta.fo2">Commercial</option>
+            <option value="cultural"    data-i="cta.fo3">Cultural</option>
+            <option value="renovation"  data-i="cta.fo4">Renovation</option>
+            <option value="other"       data-i="cta.fo5">Other</option>
+          </select>
+        </div>
+
+        <div class="f-group">
+          <label data-i="cta.fmsg">Message</label>
+          <textarea id="msgArea" placeholder="—"></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit">
+          <span class="btn-label" data-i="cta.fsend">Send Enquiry</span>
+          <span class="btn-icon">→</span>
+        </button>
+
+      </form>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div>
+    <div class="ft-logo">FORMA</div>
+    <div class="ft-tagline" data-i="ft.tag">Architecture Studio</div>
+  </div>
+
+  <nav class="ft-nav">
+    <a href="#projects" data-i="nav.work">Work</a>
+    <a href="#about"    data-i="nav.studio">Studio</a>
+    <a href="#services" data-i="nav.services">Services</a>
+    <a href="#process"  data-i="nav.process">Process</a>
+    <a href="#contact"  data-i="nav.contact">Contact</a>
+  </nav>
+
+  <div class="ft-right">
+    <p class="ft-copy">© 2025 FORMA. <span data-i="ft.rights">All rights reserved.</span></p>
+  </div>
+</footer>
+
+<!-- ══════════ SCRIPT ══════════ -->
+<script>
+/* ─── TRANSLATIONS ─── */
+const T = {
+  en: {
+    'nav.logo':     'FORMA',
+    'nav.work':     'Work',
+    'nav.studio':   'Studio',
+    'nav.services': 'Services',
+    'nav.process':  'Process',
+    'nav.contact':  'Contact',
+
+    'hero.eyebrow': 'Architecture Studio',
+    'hero.title':   'Shaping Space.<br><em>Defining Experience.</em>',
+    'hero.sub':     'We design spaces that transcend function — environments that speak, breathe, and endure.',
+    'hero.cta':     'View Our Work',
+    'hero.scroll':  'Scroll',
+
+    'about.eyebrow': 'The Studio',
+    'about.title':   'Architecture as a<br><em>lived discipline</em>',
+    'about.body':    'FORMA is an architecture studio dedicated to the art of spatial design. We approach each commission as an opportunity to create something that outlasts trends — built on honesty of material, clarity of purpose, and precision of form.',
+    'about.s1n': '18+', 'about.s1l': 'Years of Practice',
+    'about.s2n': '240', 'about.s2l': 'Projects Delivered',
+    'about.s3n': '14',  'about.s3l': 'Design Awards',
+
+    'proj.eyebrow': 'Selected Work',
+    'proj.title':   'Built to<br><em>endure</em>',
+    'proj.count':   '05 Projects',
+    'proj.p1.type': 'Residential',  'proj.p1.name': 'Residential Compound',
+    'proj.p2.type': 'Cultural',     'proj.p2.name': 'Cultural Pavilion',
+    'proj.p3.type': 'Corporate',    'proj.p3.name': 'Corporate Campus',
+    'proj.p4.type': 'Residential',  'proj.p4.name': 'Private Residence',
+    'proj.p5.type': 'Mixed-Use',    'proj.p5.name': 'Mixed-Use Tower',
+    'proj.p6.type': 'Cultural',     'proj.p6.name': 'Museum Wing',
+
+    'srv.eyebrow': 'What We Do',
+    'srv.title':   'Our practice<br><em>areas</em>',
+    'srv.s1t': 'Architectural Design',   'srv.s1d': 'Full-spectrum design services from brief to completion — residential, cultural, and commercial typologies with equal rigour.',
+    'srv.s2t': 'Interior Architecture',  'srv.s2d': 'Thoughtful spatial programming and material curation — interiors that feel considered, layered, and entirely coherent.',
+    'srv.s3t': 'Urban Consultancy',      'srv.s3d': 'Strategic guidance on urban morphology, public space activation, and mixed-use density for developers and civic bodies.',
+    'srv.s4t': 'Heritage Renovation',   'srv.s4d': 'Sensitive intervention within existing fabric — preserving historical integrity while unlocking contemporary relevance.',
+
+    'proc.eyebrow': 'How We Work',
+    'proc.title':   'A method built<br><em>on clarity</em>',
+    'proc.s1t': 'Discovery',   'proc.s1d': 'Brief analysis, site research, and stakeholder alignment. We listen before we draw — understanding context as deeply as programme.',
+    'proc.s2t': 'Concept',     'proc.s2d': 'Spatial narratives, material studies, and schematic design. Ideas tested at scale — refined until they earn their place.',
+    'proc.s3t': 'Development', 'proc.s3d': 'Technical refinement, engineering coordination, and full documentation. Every detail resolved before it reaches the site.',
+    'proc.s4t': 'Delivery',    'proc.s4d': 'Construction oversight, quality assurance, and formal handover. We remain present until the work is exactly as intended.',
+
+    'cta.eyebrow': 'Get In Touch',
+    'cta.title':   'Start a<br><em>conversation</em>',
+    'cta.quote':   '"Every great project begins with a single, honest question."',
+    'cta.note':    'We review every enquiry personally and respond within two working days. We welcome both commissions and collaborations.',
+    'cta.fname':   'Name',
+    'cta.femail':  'Email',
+    'cta.ftype':   'Project Type',
+    'cta.fsel':    'Select a category',
+    'cta.fo1': 'Residential', 'cta.fo2': 'Commercial',
+    'cta.fo3': 'Cultural',    'cta.fo4': 'Renovation', 'cta.fo5': 'Other',
+    'cta.fmsg':    'Message',
+    'cta.fsend':   'Send Enquiry',
+
+    'ft.tag':    'Architecture Studio',
+    'ft.rights': 'All rights reserved.',
+  },
+
+  es: {
+    'nav.logo':     'FORMA',
+    'nav.work':     'Proyectos',
+    'nav.studio':   'Estudio',
+    'nav.services': 'Servicios',
+    'nav.process':  'Proceso',
+    'nav.contact':  'Contacto',
+
+    'hero.eyebrow': 'Estudio de Arquitectura',
+    'hero.title':   'Formando Espacio.<br><em>Definiendo Experiencia.</em>',
+    'hero.sub':     'Diseñamos espacios que trascienden la función — entornos que hablan, respiran y perduran.',
+    'hero.cta':     'Ver Nuestro Trabajo',
+    'hero.scroll':  'Desplazar',
+
+    'about.eyebrow': 'El Estudio',
+    'about.title':   'La arquitectura como<br><em>disciplina vivida</em>',
+    'about.body':    'FORMA es un estudio de arquitectura dedicado al arte del diseño espacial. Cada encargo es una oportunidad para crear algo que trascienda las tendencias — basado en la honestidad de los materiales, la claridad del propósito y la precisión de la forma.',
+    'about.s1n': '18+', 'about.s1l': 'Años de práctica',
+    'about.s2n': '240', 'about.s2l': 'Proyectos entregados',
+    'about.s3n': '14',  'about.s3l': 'Premios de diseño',
+
+    'proj.eyebrow': 'Obra Seleccionada',
+    'proj.title':   'Construido para<br><em>perdurar</em>',
+    'proj.count':   '05 Proyectos',
+    'proj.p1.type': 'Residencial',  'proj.p1.name': 'Conjunto Residencial',
+    'proj.p2.type': 'Cultural',     'proj.p2.name': 'Pabellón Cultural',
+    'proj.p3.type': 'Corporativo',  'proj.p3.name': 'Campus Corporativo',
+    'proj.p4.type': 'Residencial',  'proj.p4.name': 'Vivienda Privada',
+    'proj.p5.type': 'Usos Mixtos',  'proj.p5.name': 'Torre de Usos Mixtos',
+    'proj.p6.type': 'Cultural',     'proj.p6.name': 'Ala de Museo',
+
+    'srv.eyebrow': 'Lo Que Hacemos',
+    'srv.title':   'Nuestras áreas<br><em>de práctica</em>',
+    'srv.s1t': 'Diseño Arquitectónico',    'srv.s1d': 'Servicios de diseño de pleno espectro desde el encargo hasta la finalización — tipologías residenciales, culturales y comerciales con igual rigor.',
+    'srv.s2t': 'Arquitectura de Interiores','srv.s2d': 'Programación espacial reflexiva y curación de materiales — interiores considerados, estratificados y completamente coherentes.',
+    'srv.s3t': 'Consultoría Urbana',        'srv.s3d': 'Orientación estratégica sobre morfología urbana, activación del espacio público y densidad de usos mixtos para promotores y municipios.',
+    'srv.s4t': 'Renovación Patrimonial',    'srv.s4d': 'Intervención sensible dentro del tejido existente — preservando la integridad histórica mientras se desbloquea la relevancia contemporánea.',
+
+    'proc.eyebrow': 'Cómo Trabajamos',
+    'proc.title':   'Un método construido<br><em>sobre la claridad</em>',
+    'proc.s1t': 'Descubrimiento', 'proc.s1d': 'Análisis del encargo, investigación del lugar y alineación de partes. Escuchamos antes de dibujar — comprendiendo el contexto tan profundamente como el programa.',
+    'proc.s2t': 'Concepto',       'proc.s2d': 'Narrativas espaciales, estudios de materiales y diseño esquemático. Ideas probadas a escala — refinadas hasta que se ganan su lugar.',
+    'proc.s3t': 'Desarrollo',     'proc.s3d': 'Refinamiento técnico, coordinación de ingeniería y documentación completa. Cada detalle resuelto antes de llegar a la obra.',
+    'proc.s4t': 'Entrega',        'proc.s4d': 'Supervisión de obra, aseguramiento de calidad y entrega formal. Permanecemos presentes hasta que el trabajo es exactamente como fue concebido.',
+
+    'cta.eyebrow': 'Contáctanos',
+    'cta.title':   'Inicia una<br><em>conversación</em>',
+    'cta.quote':   '"Todo gran proyecto comienza con una pregunta única y honesta."',
+    'cta.note':    'Revisamos cada consulta personalmente y respondemos en dos días hábiles. Damos la bienvenida tanto a encargos como a colaboraciones.',
+    'cta.fname':   'Nombre',
+    'cta.femail':  'Correo electrónico',
+    'cta.ftype':   'Tipo de Proyecto',
+    'cta.fsel':    'Selecciona una categoría',
+    'cta.fo1': 'Residencial', 'cta.fo2': 'Comercial',
+    'cta.fo3': 'Cultural',    'cta.fo4': 'Renovación', 'cta.fo5': 'Otro',
+    'cta.fmsg':    'Mensaje',
+    'cta.fsend':   'Enviar Consulta',
+
+    'ft.tag':    'Estudio de Arquitectura',
+    'ft.rights': 'Todos los derechos reservados.',
+  }
+};
+
+/* ─── Language switching ─── */
+let lang = 'en';
+
+function setLang(l) {
+  lang = l;
+  const dict = T[l];
+  document.querySelectorAll('[data-i]').forEach(el => {
+    const key = el.getAttribute('data-i');
+    if (dict[key] !== undefined) el.innerHTML = dict[key];
+  });
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === l);
+  });
+  document.documentElement.lang = l;
+}
+
+document.querySelectorAll('.lang-btn').forEach(btn =>
+  btn.addEventListener('click', () => setLang(btn.dataset.lang))
+);
+
+/* ─── Hamburger ─── */
+const hamburger  = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+
+hamburger.addEventListener('click', () => {
+  const open = mobileMenu.classList.toggle('open');
+  hamburger.classList.toggle('open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+});
+
+mobileMenu.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+    hamburger.classList.remove('open');
+    document.body.style.overflow = '';
+  });
+});
+
+/* ─── Scroll reveal ─── */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+/* ─── Hero reveals on load ─── */
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.querySelectorAll('#hero .reveal').forEach(el => el.classList.add('visible'));
+  }, 180);
+});
+
+/* ─── Contact form ─── */
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const btn   = this.querySelector('.btn-submit');
+  const label = btn.querySelector('.btn-label');
+  const icon  = btn.querySelector('.btn-icon');
+  const originalLabel = label.innerHTML;
+  const originalIcon  = icon.innerHTML;
+
+  label.textContent = lang === 'en' ? 'Sent ✓' : 'Enviado ✓';
+  icon.textContent  = '✓';
+  btn.style.background = 'var(--sage)';
+  btn.disabled = true;
+
+  setTimeout(() => {
+    label.innerHTML = originalLabel;
+    icon.innerHTML  = originalIcon;
+    btn.style.background = '';
+    btn.disabled = false;
+    this.reset();
+  }, 3500);
+});
+</script>
+
+</body>
+</html>

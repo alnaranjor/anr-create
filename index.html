@@ -1,496 +1,424 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ANR Create · Web Design & Development</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #16150f;
-    --bg2: #1e1d16;
-    --bg3: #252419;
-    --gold: #c4995a;
-    --gold-light: #e2be8a;
-    --cream: #f0ead8;
-    --muted: #8a8070;
-    --border: rgba(196,153,90,0.18);
-    --serif: 'Cormorant Garamond', Georgia, serif;
-    --sans: 'Outfit', sans-serif;
-  }
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{background:var(--bg);color:var(--cream);font-family:var(--sans);font-weight:300;line-height:1.6;overflow-x:hidden;cursor:none}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  .cursor{position:fixed;width:8px;height:8px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
-  .cursor-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(196,153,90,0.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .2s}
+  <!-- Primary Meta -->
+  <title>ANR Creative | Diseño Web Profesional — Páginas Web para Empresas y Negocios</title>
+  <meta name="description" content="ANR Creative es un estudio de diseño web profesional especializado en páginas web para empresas, autónomos y negocios. Diseño elegante, resultados rápidos y soporte continuo. Pide tu presupuesto sin compromiso.">
+  <meta name="keywords" content="diseño web profesional, desarrollo web, agencia web, página web para empresas, diseño web moderno, web corporativa, diseño web a medida, crear página web, estudio diseño web, ANR Creative">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <meta name="googlebot" content="index, follow">
+  <meta name="author" content="ANR Creative">
+  <meta name="language" content="es">
+  <meta name="revisit-after" content="7 days">
+  <meta name="rating" content="general">
+  <meta name="category" content="web design, web development, digital studio">
+  <meta name="theme-color" content="#0a0a0a">
 
-  #particles-canvas{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.55}
+  <!-- Canonical & hreflang -->
+  <link rel="canonical" href="https://anrcreative.es/">
+  <link rel="alternate" hreflang="es" href="https://anrcreative.es/">
+  <link rel="alternate" hreflang="en" href="https://anrcreative.es/?lang=en">
+  <link rel="alternate" hreflang="x-default" href="https://anrcreative.es/">
 
-  /* NAV */
-  nav{position:fixed;top:0;left:0;right:0;z-index:50;padding:28px 60px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(to bottom,rgba(22,21,15,0.97) 0%,transparent 100%);transition:padding .3s,background .3s}
-  nav.scrolled{padding:16px 60px;background:rgba(22,21,15,0.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
-  .logo{font-family:var(--serif);font-size:22px;font-weight:300;letter-spacing:.12em;color:var(--cream);text-decoration:none}
-  .logo span{color:var(--gold)}
-  .nav-right{display:flex;align-items:center;gap:40px}
-  .nav-links{display:flex;gap:36px;list-style:none}
-  .nav-links a{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s}
-  .nav-links a:hover{color:var(--gold)}
-  .lang-toggle{display:flex;border:1px solid var(--border);border-radius:2px;overflow:hidden}
-  .lang-btn{padding:6px 14px;font-size:11px;letter-spacing:.15em;text-transform:uppercase;background:transparent;border:none;color:var(--muted);cursor:none;transition:all .3s;font-family:var(--sans)}
-  .lang-btn.active{background:var(--gold);color:var(--bg);font-weight:500}
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ANR Creative">
+  <meta property="og:url" content="https://anrcreative.es/">
+  <meta property="og:title" content="ANR Creative | Diseño Web Profesional">
+  <meta property="og:description" content="Estudio de diseño y desarrollo web. Páginas web profesionales para empresas y negocios. Diseño elegante y resultados reales.">
+  <meta property="og:image" content="https://anrcreative.es/assets/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="ANR Creative — Diseño Web Profesional">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:locale:alternate" content="en_GB">
 
-  /* HERO */
-  .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 60px 80px;position:relative;overflow:hidden;z-index:1}
-  .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 65% 35%,rgba(196,153,90,0.08) 0%,transparent 70%),radial-gradient(ellipse 50% 50% at 20% 75%,rgba(196,153,90,0.04) 0%,transparent 60%)}
-  .hero-vline{position:absolute;top:0;bottom:0;right:38%;width:1px;background:linear-gradient(to bottom,transparent 0%,var(--border) 30%,var(--border) 70%,transparent 100%)}
-  .hero-tag{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:28px;opacity:0;animation:fadeUp .8s ease .3s forwards}
-  .hero-title{font-family:var(--serif);font-size:clamp(64px,9vw,128px);font-weight:300;line-height:.92;letter-spacing:-.02em;margin-bottom:52px;opacity:0;animation:fadeUp .9s ease .5s forwards}
-  .hero-title em{font-style:italic;color:var(--gold-light)}
-  .hero-bottom{display:flex;align-items:flex-end;justify-content:space-between;opacity:0;animation:fadeUp .8s ease .8s forwards}
-  .hero-desc{max-width:340px;font-size:14px;line-height:1.9;color:var(--muted)}
-  .cta-group{display:flex;flex-direction:column;gap:14px;align-items:flex-end}
-  .btn-primary{display:inline-flex;align-items:center;gap:12px;background:var(--gold);color:var(--bg);padding:14px 32px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;text-decoration:none;transition:all .3s;font-family:var(--sans);border:none;cursor:none}
-  .btn-primary:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 12px 32px rgba(196,153,90,0.25)}
-  .btn-ghost{display:inline-flex;align-items:center;gap:12px;background:transparent;color:var(--cream);padding:14px 32px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;border:1px solid var(--border);transition:all .3s;cursor:none}
-  .btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
-  .scroll-ind{position:absolute;bottom:40px;left:60px;display:flex;align-items:center;gap:16px;font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);opacity:0;animation:fadeUp .8s ease 1.2s forwards}
-  .scroll-line{width:40px;height:1px;background:var(--border);position:relative;overflow:hidden}
-  .scroll-line::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:var(--gold);animation:scrollAnim 2s ease 1.5s infinite}
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ANR Creative | Diseño Web Profesional">
+  <meta name="twitter:description" content="Estudio de diseño y desarrollo web. Páginas web para empresas y negocios.">
+  <meta name="twitter:image" content="https://anrcreative.es/assets/og-image.jpg">
 
-  /* MARQUEE */
-  .marquee-wrap{overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:16px 0;background:var(--bg2);position:relative;z-index:1}
-  .marquee-track{display:flex;animation:marquee 24s linear infinite;white-space:nowrap}
-  .marquee-item{display:inline-flex;align-items:center;gap:28px;padding-right:56px;font-family:var(--serif);font-style:italic;font-size:15px;color:var(--muted)}
-  .marquee-dot{width:4px;height:4px;background:var(--gold);border-radius:50%;flex-shrink:0}
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
 
-  /* LABELS */
-  .section-label{font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:32px;display:flex;align-items:center;gap:16px}
-  .section-label::before{content:'';width:40px;height:1px;background:var(--gold);flex-shrink:0}
-  .section-title{font-family:var(--serif);font-size:clamp(40px,5vw,68px);font-weight:300;line-height:1}
-  .section-title em{font-style:italic;color:var(--gold-light)}
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap">
 
-  /* WORK */
-  .work{padding:140px 60px;background:var(--bg2);position:relative;z-index:1}
-  .work-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:80px}
-  .projects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:3px}
-  .project-card{position:relative;overflow:hidden;cursor:none;background:var(--bg3);text-decoration:none;display:block}
-  .project-card:first-child{grid-column:1;grid-row:1/3}
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/styles.css">
 
-  /* Mock screens */
-  .project-visual{width:100%;height:100%;min-height:300px;display:flex;align-items:center;justify-content:center;transition:transform .7s ease;position:relative}
-  .project-card:first-child .project-visual{min-height:620px}
-  .project-card:hover .project-visual{transform:scale(1.03)}
-  .mock-law{background:linear-gradient(145deg,#0f0d08 0%,#1e1908 40%,#110f08 100%)}
-  .mock-fire{background:linear-gradient(145deg,#100806 0%,#1e1008 40%,#0d0805 100%)}
-  .mock-gym{background:linear-gradient(145deg,#050505 0%,#0a120a 40%,#050505 100%)}
-  .mock-agency{background:linear-gradient(145deg,#0c0c14 0%,#14102a 40%,#0c0c14 100%)}
-  .mock-screen{width:72%;max-width:320px;border:1px solid rgba(196,153,90,0.12);border-radius:4px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,0.5)}
-  .mock-bar{height:22px;background:rgba(196,153,90,0.06);display:flex;align-items:center;gap:5px;padding:0 10px}
-  .mock-dot{width:7px;height:7px;border-radius:50%;background:rgba(196,153,90,0.2)}
-  .mock-body{padding:14px 12px}
-  .mock-h{height:8px;background:rgba(196,153,90,0.18);border-radius:2px;margin-bottom:10px;width:55%}
-  .mock-l{height:5px;background:rgba(255,255,255,0.06);border-radius:2px;margin-bottom:6px}
-  .mock-l.w80{width:80%}.mock-l.w60{width:60%}.mock-l.w90{width:90%}
-  .mock-block{height:38px;background:rgba(196,153,90,0.07);border-radius:2px;margin:10px 0}
-  .mock-grid2{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
-  .mock-card{height:28px;background:rgba(255,255,255,0.04);border-radius:2px;border-top:2px solid rgba(196,153,90,0.18)}
-  .mock-btn{height:18px;background:rgba(196,153,90,0.22);border-radius:2px;margin-top:10px;width:48%}
-  /* gym mock — neon accent */
-  .mock-gym .mock-h{background:rgba(0,255,136,0.25)}
-  .mock-gym .mock-card{border-top-color:rgba(0,255,136,0.2)}
-  .mock-gym .mock-btn{background:rgba(0,255,136,0.2)}
-  /* agency mock — purple accent */
-  .mock-agency .mock-h{background:rgba(124,58,237,0.3)}
-  .mock-agency .mock-card{border-top-color:rgba(124,58,237,0.2)}
-  .mock-agency .mock-btn{background:rgba(124,58,237,0.25)}
-
-  .project-overlay{position:absolute;inset:0;padding:36px;display:flex;flex-direction:column;justify-content:flex-end;background:linear-gradient(to top,rgba(16,14,9,0.94) 0%,rgba(16,14,9,0.2) 50%,transparent 100%)}
-  .project-num{position:absolute;top:28px;right:28px;font-family:var(--serif);font-size:13px;color:var(--gold);opacity:.5}
-  .project-tag{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;opacity:0;transform:translateY(10px);transition:all .4s ease .05s}
-  .project-name{font-family:var(--serif);font-size:clamp(22px,2.2vw,34px);font-weight:300;margin-bottom:10px;transform:translateY(6px);transition:transform .4s ease}
-  .project-desc{font-size:12px;color:var(--muted);line-height:1.7;max-width:300px;opacity:0;transform:translateY(10px);transition:all .4s ease}
-  .project-link{display:inline-flex;align-items:center;gap:8px;margin-top:14px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);opacity:0;transform:translateY(10px);transition:all .4s ease .1s}
-  .project-link::after{content:'→';transition:transform .25s}
-  .project-card:hover .project-tag,
-  .project-card:hover .project-desc,
-  .project-card:hover .project-link{opacity:1;transform:translateY(0)}
-  .project-card:hover .project-name{transform:translateY(0)}
-  .project-card:hover .project-link::after{transform:translateX(4px)}
-
-  /* ABOUT */
-  .about{padding:140px 60px;display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:center;position:relative;z-index:1}
-  .about-title{font-family:var(--serif);font-size:clamp(38px,4vw,56px);font-weight:300;line-height:1.1;margin-bottom:28px}
-  .about-title em{font-style:italic;color:var(--gold-light)}
-  .about-text{font-size:14px;line-height:1.9;color:var(--muted);margin-bottom:14px}
-  .about-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-top:56px}
-  .stat{background:var(--bg);padding:28px;text-align:center}
-  .stat-num{font-family:var(--serif);font-size:40px;font-weight:300;color:var(--gold);line-height:1;margin-bottom:6px}
-  .stat-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
-
-  /* SERVICES */
-  .services{padding:140px 60px;background:var(--bg2);position:relative;z-index:1}
-  .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-top:80px}
-  .service-card{background:var(--bg2);padding:48px 36px;position:relative;overflow:hidden;transition:background .3s}
-  .service-card:hover{background:var(--bg3)}
-  .service-card::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--gold);transition:width .4s ease}
-  .service-card:hover::after{width:100%}
-  .service-num{font-family:var(--serif);font-size:52px;font-weight:300;color:rgba(196,153,90,0.1);line-height:1;margin-bottom:24px}
-  .service-name{font-family:var(--serif);font-size:24px;font-weight:300;margin-bottom:14px;line-height:1.2}
-  .service-desc{font-size:13px;color:var(--muted);line-height:1.8}
-
-  /* CONTACT */
-  .contact{padding:140px 60px;text-align:center;position:relative;overflow:hidden;z-index:1}
-  .contact-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 50%,rgba(196,153,90,0.07) 0%,transparent 70%);pointer-events:none}
-  .contact-title{font-family:var(--serif);font-size:clamp(48px,7vw,96px);font-weight:300;line-height:1;margin-bottom:24px}
-  .contact-title em{font-style:italic;color:var(--gold-light)}
-  .contact-sub{font-size:14px;color:var(--muted);margin-bottom:56px;max-width:440px;margin-left:auto;margin-right:auto}
-  .contact-buttons{display:flex;justify-content:center;gap:16px;flex-wrap:wrap}
-  .btn-whatsapp{display:inline-flex;align-items:center;gap:12px;background:#25D366;color:#fff;padding:16px 36px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;text-decoration:none;transition:all .3s;font-family:var(--sans);border:none;cursor:none}
-  .btn-whatsapp:hover{background:#1db954;transform:translateY(-2px);box-shadow:0 12px 32px rgba(37,211,102,0.3)}
-  .btn-whatsapp svg{width:18px;height:18px;flex-shrink:0}
-  .btn-email{display:inline-flex;align-items:center;gap:12px;background:transparent;color:var(--cream);padding:16px 36px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;border:1px solid var(--border);transition:all .3s;cursor:none}
-  .btn-email:hover{border-color:var(--gold);color:var(--gold)}
-  .btn-email svg{width:16px;height:16px;flex-shrink:0}
-  .contact-divider{width:1px;height:56px;background:var(--border);margin:56px auto}
-  .contact-email-text{font-family:var(--serif);font-size:clamp(16px,2vw,22px);font-style:italic;color:var(--muted)}
-
-  /* FOOTER */
-  footer{padding:28px 60px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1}
-  .footer-logo{font-family:var(--serif);font-size:16px;font-weight:300;letter-spacing:.12em;color:var(--muted)}
-  .footer-logo span{color:var(--gold)}
-  .footer-copy{font-size:11px;color:var(--muted);letter-spacing:.08em}
-
-  /* REVEAL */
-  .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s ease}
-  .reveal.visible{opacity:1;transform:none}
-  .d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}
-
-  @keyframes fadeUp{to{opacity:1;transform:none}}
-  @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-  @keyframes scrollAnim{to{left:100%}}
-
-  @media(max-width:768px){
-    nav,nav.scrolled{padding:18px 24px}
-    .nav-links{display:none}
-    .hero,.work,.about,.services,.contact{padding-left:24px;padding-right:24px}
-    .hero-bottom{flex-direction:column;gap:28px;align-items:flex-start}
-    .cta-group{align-items:flex-start}
-    .projects-grid{grid-template-columns:1fr}
-    .project-card:first-child{grid-column:auto;grid-row:auto}
-    .project-card:first-child .project-visual{min-height:300px}
-    .about{grid-template-columns:1fr;gap:48px;padding-top:80px;padding-bottom:80px}
-    .services-grid{grid-template-columns:1fr}
-    footer{flex-direction:column;gap:10px;text-align:center;padding:24px}
-  }
-</style>
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Organization","name":"ANR Creative","url":"https://anrcreative.es","logo":{"@type":"ImageObject","url":"https://anrcreative.es/assets/logo.png","width":200,"height":60},"description":"Estudio de diseño y desarrollo web profesional especializado en páginas web para empresas y negocios.","foundingDate":"2025","contactPoint":[{"@type":"ContactPoint","telephone":"+34629729273","contactType":"sales","availableLanguage":["Spanish","English"]},{"@type":"ContactPoint","email":"alfonsonaranjorigo@gmail.com","contactType":"customer support","availableLanguage":["Spanish","English"]}],"knowsAbout":["Diseño Web","Desarrollo Web","SEO","HTML","CSS","JavaScript","UI/UX Design"],"sameAs":["https://www.linkedin.com/company/anrcreative","https://www.instagram.com/anrcreative"]}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"ProfessionalService","name":"ANR Creative","url":"https://anrcreative.es","telephone":"+34629729273","email":"alfonsonaranjorigo@gmail.com","priceRange":"$$","description":"Diseño y desarrollo web profesional para empresas, autónomos y negocios de cualquier sector.","hasOfferCatalog":{"@type":"OfferCatalog","name":"Servicios de Diseño Web","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Diseño Web Profesional","description":"Páginas web profesionales a medida para empresas y negocios"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Desarrollo Web","description":"Desarrollo con HTML, CSS y JavaScript optimizado para SEO y rendimiento"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Web para Negocios Locales","description":"Sitios web profesionales para negocios locales de cualquier sector"}}]}}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebSite","name":"ANR Creative","url":"https://anrcreative.es","description":"Estudio de diseño web profesional","inLanguage":["es-ES","en-GB"]}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebPage","name":"ANR Creative | Diseño Web Profesional","url":"https://anrcreative.es","description":"Estudio de diseño y desarrollo web profesional para empresas y negocios","inLanguage":"es-ES","speakable":{"@type":"SpeakableSpecification","cssSelector":["h1","h2",".hero-subtitle"]}}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://anrcreative.es/#inicio"},{"@type":"ListItem","position":2,"name":"Proyectos","item":"https://anrcreative.es/#proyectos"},{"@type":"ListItem","position":3,"name":"Contacto","item":"https://anrcreative.es/#contacto"}]}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"ItemList","name":"Portfolio ANR Creative","description":"Proyectos de diseño y desarrollo web realizados por ANR Creative","numberOfItems":3,"itemListElement":[{"@type":"ListItem","position":1,"item":{"@type":"CreativeWork","name":"APEX — Premium Fitness Studio","url":"https://anrcreative.es/demos/apex/","creator":{"@type":"Organization","name":"ANR Creative"}}},{"@type":"ListItem","position":2,"item":{"@type":"CreativeWork","name":"FORMA — Architecture Studio","url":"https://anrcreative.es/demos/forma/","creator":{"@type":"Organization","name":"ANR Creative"}}},{"@type":"ListItem","position":3,"item":{"@type":"CreativeWork","name":"Atelier Luna — Floristería Boutique","url":"https://anrcreative.es/demos/atelier-luna/","creator":{"@type":"Organization","name":"ANR Creative"}}}]}
+  </script>
 </head>
 <body>
 
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursor-ring"></div>
-<canvas id="particles-canvas"></canvas>
+  <!-- Skip to content -->
+  <a href="#inicio" class="skip-link" data-i18n="skip">Ir al contenido principal</a>
 
-<nav id="nav">
-  <a href="#" class="logo">ANR<span>·</span>Create</a>
-  <div class="nav-right">
-    <ul class="nav-links">
-      <li><a href="#work" data-en="Work" data-es="Proyectos">Work</a></li>
-      <li><a href="#about" data-en="About" data-es="Sobre mí">About</a></li>
-      <li><a href="#services" data-en="Services" data-es="Servicios">Services</a></li>
-      <li><a href="#contact" data-en="Contact" data-es="Contacto">Contact</a></li>
+  <!-- Custom cursor -->
+  <div class="cursor-dot" aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"></div>
+
+  <!-- ═══ NAVBAR ═══ -->
+  <header class="navbar" role="banner">
+    <div class="nav-container">
+      <a href="#inicio" class="nav-logo" aria-label="ANR Creative — Inicio">
+        <span class="logo-anr">ANR</span><span class="logo-creative">Creative</span>
+      </a>
+      <nav role="navigation" aria-label="Navegación principal">
+        <ul class="nav-links">
+          <li><a href="#nosotros"  data-i18n="nav.about">Nosotros</a></li>
+          <li><a href="#proyectos" data-i18n="nav.projects">Proyectos</a></li>
+          <li><a href="#proceso"   data-i18n="nav.process">Proceso</a></li>
+          <li><a href="#contacto"  data-i18n="nav.contact">Contacto</a></li>
+        </ul>
+      </nav>
+      <div class="nav-right">
+        <div class="lang-switcher" role="group" aria-label="Selector de idioma">
+          <button class="lang-btn active" data-lang="es" aria-pressed="true">ES</button>
+          <span class="lang-sep" aria-hidden="true">|</span>
+          <button class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+        </div>
+        <a href="#contacto" class="btn-cta" data-i18n="nav.cta">Pide presupuesto</a>
+        <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-menu">
+          <span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="mob-menu" id="mobile-menu" role="dialog" aria-label="Menú móvil" aria-modal="true">
+    <ul>
+      <li><a href="#nosotros"  data-i18n="nav.about">Nosotros</a></li>
+      <li><a href="#proyectos" data-i18n="nav.projects">Proyectos</a></li>
+      <li><a href="#proceso"   data-i18n="nav.process">Proceso</a></li>
+      <li><a href="#contacto"  data-i18n="nav.contact">Contacto</a></li>
     </ul>
-    <div class="lang-toggle">
-      <button class="lang-btn active" onclick="setLang('en')">EN</button>
-      <button class="lang-btn" onclick="setLang('es')">ES</button>
-    </div>
-  </div>
-</nav>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-vline"></div>
-  <div class="hero-tag" data-en="Web Design & Development · Seville" data-es="Diseño & Desarrollo Web · Sevilla">Web Design & Development · Seville</div>
-  <h1 class="hero-title">
-    <span data-en="Crafting" data-es="Webs que">Crafting</span><br>
-    <em><span data-en="digital" data-es="marcan la">digital</span></em><br>
-    <span data-en="experiences." data-es="diferencia.">experiences.</span>
-  </h1>
-  <div class="hero-bottom">
-    <p class="hero-desc" data-en="Websites built from scratch — clean code, intentional design, and a clear focus on converting visitors into clients." data-es="Webs construidas desde cero — código limpio, diseño cuidado, y un enfoque claro en convertir visitantes en clientes.">Websites built from scratch — clean code, intentional design, and a clear focus on converting visitors into clients.</p>
-    <div class="cta-group">
-      <a href="#work" class="btn-primary" data-en="View my work →" data-es="Ver proyectos →">View my work →</a>
-      <a href="#contact" class="btn-ghost" data-en="Get in touch" data-es="Contactar">Get in touch</a>
-    </div>
-  </div>
-  <div class="scroll-ind">
-    <div class="scroll-line"></div>
-    <span data-en="Scroll" data-es="Desliza">Scroll</span>
-  </div>
-</section>
-
-<!-- MARQUEE -->
-<div class="marquee-wrap">
-  <div class="marquee-track" id="marquee-track"></div>
-</div>
-
-<!-- WORK -->
-<section class="work" id="work">
-  <div class="work-header reveal">
-    <div>
-      <div class="section-label" data-en="Portfolio" data-es="Portfolio">Portfolio</div>
-      <h2 class="section-title">
-        <span data-en="Selected" data-es="Proyectos">Selected</span><br>
-        <em><span data-en="projects." data-es="destacados.">projects.</span></em>
-      </h2>
+    <div class="mob-lang">
+      <button class="lang-btn active" data-lang="es">ES</button>
+      <span class="lang-sep" aria-hidden="true">|</span>
+      <button class="lang-btn" data-lang="en">EN</button>
     </div>
   </div>
 
-  <div class="projects-grid">
+  <main id="main-content">
 
-    <!-- 1 Martínez & Asociados — LARGE -->
-    <a class="project-card reveal" href="martinez-abogados/" target="_blank">
-      <div class="project-visual mock-law">
-        <div class="mock-screen">
-          <div class="mock-bar"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div></div>
-          <div class="mock-body">
-            <div class="mock-h"></div>
-            <div class="mock-l w80"></div><div class="mock-l w60"></div>
-            <div class="mock-block"></div>
-            <div class="mock-grid2"><div class="mock-card"></div><div class="mock-card"></div><div class="mock-card"></div><div class="mock-card"></div><div class="mock-card"></div><div class="mock-card"></div></div>
-            <div class="mock-btn"></div>
-          </div>
+    <!-- ═══ HERO ═══ -->
+    <section id="inicio" aria-labelledby="hero-heading">
+      <div id="particles-js" aria-hidden="true"></div>
+      <div class="hero-content">
+        <p class="hero-eyebrow reveal" data-i18n="hero.eyebrow">Estudio de diseño web</p>
+        <h1 id="hero-heading" class="hero-title reveal d1" data-i18n="hero.title">Diseño web profesional que convierte visitas en clientes</h1>
+        <p class="hero-subtitle reveal d2" data-i18n="hero.sub">Webs que convierten. Diseño que impresiona.</p>
+        <div class="hero-actions reveal d3">
+          <a href="#proyectos" class="btn-primary" data-i18n="hero.cta1">Ver proyectos</a>
+          <a href="#contacto"  class="btn-ghost"   data-i18n="hero.cta2">Contactar</a>
         </div>
       </div>
-      <div class="project-overlay">
-        <span class="project-num">01</span>
-        <span class="project-tag" data-en="Law Firm · Demo" data-es="Despacho Legal · Demo">Law Firm · Demo</span>
-        <h3 class="project-name">Martínez & Asociados</h3>
-        <p class="project-desc" data-en="Full law firm site — practice areas, testimonials, free consultation form, bilingual EN/ES." data-es="Web completa para despacho — áreas de práctica, testimonios, formulario de consulta gratuita y toggle ES/EN.">Full law firm site — practice areas, testimonials, free consultation form, bilingual EN/ES.</p>
-        <span class="project-link" data-en="Visit site" data-es="Ver web">Visit site</span>
+      <div class="hero-scroll" aria-hidden="true">
+        <span class="scroll-line"></span>
       </div>
-    </a>
+    </section>
 
-    <!-- 2 La Brasa -->
-    <a class="project-card reveal d1" href="la-brasa-restaurante/" target="_blank">
-      <div class="project-visual mock-fire">
-        <div class="mock-screen">
-          <div class="mock-bar"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div></div>
-          <div class="mock-body">
-            <div class="mock-h" style="background:rgba(212,88,26,.3)"></div>
-            <div class="mock-l w90"></div><div class="mock-l w60"></div>
-            <div class="mock-block" style="background:rgba(212,88,26,.1)"></div>
-            <div class="mock-grid2">
-              <div class="mock-card" style="border-top-color:rgba(212,88,26,.3)"></div>
-              <div class="mock-card" style="border-top-color:rgba(212,88,26,.3)"></div>
-              <div class="mock-card" style="border-top-color:rgba(212,88,26,.3)"></div>
-              <div class="mock-card" style="border-top-color:rgba(212,88,26,.3)"></div>
+    <!-- ═══ ABOUT ═══ -->
+    <section id="nosotros" aria-labelledby="about-heading">
+      <div class="section-container">
+        <div class="section-label reveal" data-i18n="about.label">Sobre nosotros</div>
+        <h2 id="about-heading" class="section-title reveal d1" data-i18n="about.title">Un estudio boutique.<br>Resultados de primera.</h2>
+        <p class="about-body reveal d2" data-i18n="about.body">ANR Creative es un estudio de diseño web profesional especializado en páginas web para empresas, autónomos y negocios que quieren crecer online. Hacemos desarrollo web profesional a medida — sin plantillas, sin atajos. Cada proyecto es único: diseño web a medida que refleja la identidad de tu negocio y está optimizado desde el primer día para atraer clientes.</p>
+
+        <div class="features-grid">
+          <div class="feature reveal d1">
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
             </div>
-            <div class="mock-btn" style="background:rgba(212,88,26,.3)"></div>
+            <h3 data-i18n="feat.1.title">Diseño a medida</h3>
+            <p data-i18n="feat.1.desc">Cada web es única. Diseñada desde cero para tu negocio, tu sector y tus clientes. Sin plantillas genéricas.</p>
+          </div>
+          <div class="feature reveal d2">
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            </div>
+            <h3 data-i18n="feat.2.title">Resultados rápidos</h3>
+            <p data-i18n="feat.2.desc">Tu web lista en 7 días. Proceso claro, comunicación directa y entregas puntuales. Sin sorpresas ni retrasos.</p>
+          </div>
+          <div class="feature reveal d3">
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+            </div>
+            <h3 data-i18n="feat.3.title">Soporte continuo</h3>
+            <p data-i18n="feat.3.desc">No desaparecemos al entregar. Soporte post-lanzamiento incluido y acompañamiento para que tu web crezca contigo.</p>
           </div>
         </div>
       </div>
-      <div class="project-overlay">
-        <span class="project-num">02</span>
-        <span class="project-tag" data-en="Restaurant · Demo" data-es="Restaurante · Demo">Restaurant · Demo</span>
-        <h3 class="project-name">La Brasa</h3>
-        <p class="project-desc" data-en="Wood-fire restaurant site — animated menu, gallery, reservation form, bilingual EN/ES." data-es="Web de restaurante de brasa — carta animada, galería, formulario de reservas y toggle ES/EN.">Wood-fire restaurant site — animated menu, gallery, reservation form, bilingual EN/ES.</p>
-        <span class="project-link" data-en="Visit site" data-es="Ver web">Visit site</span>
-      </div>
-    </a>
+    </section>
 
-    <!-- 3 APEX Fitness -->
-    <a class="project-card reveal d2" href="apex-fitness/" target="_blank">
-      <div class="project-visual mock-gym">
-        <div class="mock-screen">
-          <div class="mock-bar"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div></div>
-          <div class="mock-body">
-            <div class="mock-h"></div>
-            <div class="mock-l w80"></div>
-            <div class="mock-block"></div>
-            <div class="mock-grid2"><div class="mock-card"></div><div class="mock-card"></div><div class="mock-card"></div><div class="mock-card"></div></div>
-            <div class="mock-btn"></div>
+    <!-- ═══ PROCESS ═══ -->
+    <section id="proceso" aria-labelledby="process-heading">
+      <div class="section-container">
+        <div class="section-label reveal" data-i18n="process.label">Cómo trabajamos</div>
+        <h2 id="process-heading" class="section-title reveal d1" data-i18n="process.title">Simple de principio<br><em>a fin.</em></h2>
+        <div class="process-timeline">
+          <div class="process-step reveal d1">
+            <div class="step-number" aria-hidden="true">01</div>
+            <div class="step-content">
+              <h3 data-i18n="step.1.title">Escuchamos</h3>
+              <p data-i18n="step.1.desc">Cuéntanos tu negocio, tu público y tus objetivos. Hacemos las preguntas correctas para entender exactamente lo que necesitas.</p>
+            </div>
+          </div>
+          <div class="process-connector" aria-hidden="true"></div>
+          <div class="process-step reveal d2">
+            <div class="step-number" aria-hidden="true">02</div>
+            <div class="step-content">
+              <h3 data-i18n="step.2.title">Diseñamos</h3>
+              <p data-i18n="step.2.desc">Creamos el diseño visual de tu web: paleta, tipografía, estructura y contenido. Tú apruebas antes de que escribamos una línea de código.</p>
+            </div>
+          </div>
+          <div class="process-connector" aria-hidden="true"></div>
+          <div class="process-step reveal d3">
+            <div class="step-number" aria-hidden="true">03</div>
+            <div class="step-content">
+              <h3 data-i18n="step.3.title">Desarrollamos</h3>
+              <p data-i18n="step.3.desc">Construimos tu web con HTML, CSS y JavaScript puro. Rápida, accesible y optimizada para Google desde el primer día.</p>
+            </div>
+          </div>
+          <div class="process-connector" aria-hidden="true"></div>
+          <div class="process-step reveal d4">
+            <div class="step-number" aria-hidden="true">04</div>
+            <div class="step-content">
+              <h3 data-i18n="step.4.title">Lanzamos</h3>
+              <p data-i18n="step.4.desc">Publicamos tu web, configuramos el dominio, los metas y el SEO técnico. Tu negocio online, listo para captar clientes.</p>
+            </div>
           </div>
         </div>
       </div>
-      <div class="project-overlay">
-        <span class="project-num">03</span>
-        <span class="project-tag" data-en="Fitness · Demo" data-es="Gimnasio · Demo">Fitness · Demo</span>
-        <h3 class="project-name">APEX Fitness</h3>
-        <p class="project-desc" data-en="Gym site — programs grid, animated counters, pricing plans, free trial form, bilingual EN/ES." data-es="Web de gimnasio — programas, contadores animados, planes de precio, formulario de prueba gratis y toggle ES/EN.">Gym site — programs grid, animated counters, pricing plans, free trial form, bilingual EN/ES.</p>
-        <span class="project-link" data-en="Visit site" data-es="Ver web">Visit site</span>
-      </div>
-    </a>
+    </section>
 
-    <!-- 4 Lumina Studio -->
-    <a class="project-card reveal d3" href="lumina-studio/" target="_blank">
-      <div class="project-visual mock-agency">
-        <div class="mock-screen">
-          <div class="mock-bar"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div></div>
-          <div class="mock-body">
-            <div class="mock-h"></div>
-            <div class="mock-l w90"></div><div class="mock-l w60"></div>
-            <div class="mock-grid2"><div class="mock-card"></div><div class="mock-card"></div><div class="mock-card"></div><div class="mock-card"></div><div class="mock-card"></div><div class="mock-card"></div></div>
-            <div class="mock-btn"></div>
+    <!-- ═══ PROJECTS ═══ -->
+    <section id="proyectos" aria-labelledby="projects-heading">
+      <div class="section-container">
+        <div class="section-label reveal" data-i18n="proj.label">Nuestro trabajo</div>
+        <h2 id="projects-heading" class="section-title reveal d1" data-i18n="proj.title">Webs que hemos<br><em>construido.</em></h2>
+        <div class="projects-grid">
+
+          <article class="project-card reveal d1">
+            <a href="demos/apex/" target="_blank" rel="noopener" aria-label="Ver demo APEX Fitness Studio">
+              <div class="card-visual apex">
+                <div class="card-overlay">
+                  <span class="card-tag" data-i18n="proj.1.sector">Fitness · Deporte</span>
+                  <h3 class="card-name">APEX</h3>
+                  <p class="card-sub" data-i18n="proj.1.sub">Premium Fitness Studio</p>
+                </div>
+              </div>
+            </a>
+            <div class="card-info">
+              <p class="card-desc" data-i18n="proj.1.desc">Web premium para estudio de fitness de alto rendimiento. Oscura, potente y orientada a conversión de nuevos miembros.</p>
+              <div class="card-tags">
+                <span>HTML</span><span>CSS</span><span>JS</span>
+              </div>
+              <a href="demos/apex/" target="_blank" rel="noopener" class="card-link" data-i18n="proj.demo">
+                Ver demo <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </article>
+
+          <article class="project-card reveal d2">
+            <a href="demos/forma/" target="_blank" rel="noopener" aria-label="Ver demo FORMA Architecture Studio">
+              <div class="card-visual forma">
+                <div class="card-overlay">
+                  <span class="card-tag" data-i18n="proj.2.sector">Arquitectura · Estudio</span>
+                  <h3 class="card-name">FORMA</h3>
+                  <p class="card-sub" data-i18n="proj.2.sub">Architecture Studio</p>
+                </div>
+              </div>
+            </a>
+            <div class="card-info">
+              <p class="card-desc" data-i18n="proj.2.desc">Sitio editorial para estudio de arquitectura. Estética limpia y sobria que comunica precisión, gusto y profesionalidad.</p>
+              <div class="card-tags">
+                <span>HTML</span><span>CSS</span><span>JS</span>
+              </div>
+              <a href="demos/forma/" target="_blank" rel="noopener" class="card-link" data-i18n="proj.demo">
+                Ver demo <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </article>
+
+          <article class="project-card reveal d3">
+            <a href="demos/atelier-luna/" target="_blank" rel="noopener" aria-label="Ver demo Atelier Luna Floristería">
+              <div class="card-visual luna">
+                <div class="card-overlay">
+                  <span class="card-tag" data-i18n="proj.3.sector">Floristería · Boutique</span>
+                  <h3 class="card-name">Atelier Luna</h3>
+                  <p class="card-sub" data-i18n="proj.3.sub">Floristería boutique</p>
+                </div>
+              </div>
+            </a>
+            <div class="card-info">
+              <p class="card-desc" data-i18n="proj.3.desc">Web bilingüe para floristería boutique en Madrid. Elegante, artesanal y con un sistema de i18n completo ES/EN.</p>
+              <div class="card-tags">
+                <span>HTML</span><span>CSS</span><span>JS</span>
+              </div>
+              <a href="demos/atelier-luna/" target="_blank" rel="noopener" class="card-link" data-i18n="proj.demo">
+                Ver demo <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ WHY US ═══ -->
+    <section id="por-que" aria-labelledby="whyus-heading">
+      <div class="section-container">
+        <div class="section-label reveal" data-i18n="why.label">Por qué elegirnos</div>
+        <h2 id="whyus-heading" class="section-title reveal d1" data-i18n="why.title">Números que<br><em>hablan por sí solos.</em></h2>
+        <div class="stats-grid">
+          <div class="stat reveal d1">
+            <span class="stat-num">+15</span>
+            <span class="stat-label" data-i18n="stat.1">Clientes</span>
+          </div>
+          <div class="stat reveal d2">
+            <span class="stat-num">7</span>
+            <span class="stat-label" data-i18n="stat.2">Días de entrega</span>
+          </div>
+          <div class="stat reveal d3">
+            <span class="stat-num">100%</span>
+            <span class="stat-label" data-i18n="stat.3">Personalizado</span>
+          </div>
+          <div class="stat reveal d4">
+            <span class="stat-num">∞</span>
+            <span class="stat-label" data-i18n="stat.4">Soporte post-lanzamiento</span>
           </div>
         </div>
       </div>
-      <div class="project-overlay">
-        <span class="project-num">04</span>
-        <span class="project-tag" data-en="Creative Agency · Demo" data-es="Agencia Creativa · Demo">Creative Agency · Demo</span>
-        <h3 class="project-name">Lumina Studio</h3>
-        <p class="project-desc" data-en="Creative agency site — services, portfolio grid, process steps, contact form, bilingual EN/ES." data-es="Web de agencia creativa — servicios, portfolio, proceso, formulario de contacto y toggle ES/EN.">Creative agency site — services, portfolio grid, process steps, contact form, bilingual EN/ES.</p>
-        <span class="project-link" data-en="Visit site" data-es="Ver web">Visit site</span>
+    </section>
+
+    <!-- ═══ CONTACT ═══ -->
+    <section id="contacto" aria-labelledby="contact-heading">
+      <div class="section-container">
+        <div class="contact-grid">
+          <div class="contact-left">
+            <div class="section-label reveal" data-i18n="contact.label">Contacto</div>
+            <h2 id="contact-heading" class="section-title reveal d1" data-i18n="contact.title">Contacta con<br><em>ANR Creative</em></h2>
+            <p class="contact-sub reveal d2" data-i18n="contact.sub">Cuéntanos qué necesitas y te enviamos presupuesto sin compromiso.</p>
+            <div class="contact-channels reveal d3">
+              <a href="mailto:alfonsonaranjorigo@gmail.com" class="channel-btn email" aria-label="Enviar email a ANR Creative">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                <span data-i18n="contact.email">Enviar email</span>
+              </a>
+              <a href="https://wa.me/34629729273" target="_blank" rel="noopener" class="channel-btn whatsapp" aria-label="Contactar por WhatsApp">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                <span data-i18n="contact.whatsapp">WhatsApp</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="contact-right reveal d2">
+            <form id="contact-form" action="https://formspree.io/f/PLACEHOLDER" method="POST" novalidate>
+              <input type="hidden" name="_subject" value="Nuevo contacto desde anrcreative.es">
+              <input type="hidden" name="_language" id="form-lang" value="es">
+
+              <div class="form-group">
+                <label for="f-name" data-i18n="form.name">Nombre</label>
+                <input type="text" id="f-name" name="name" required autocomplete="name" placeholder="—">
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="f-email" data-i18n="form.email">Email</label>
+                  <input type="email" id="f-email" name="email" required autocomplete="email" placeholder="—">
+                </div>
+                <div class="form-group">
+                  <label for="f-phone" data-i18n="form.phone">Teléfono <span data-i18n="form.optional">(opcional)</span></label>
+                  <input type="tel" id="f-phone" name="phone" autocomplete="tel" placeholder="—">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="f-msg" data-i18n="form.message">Mensaje</label>
+                <textarea id="f-msg" name="message" required rows="4" placeholder="—"></textarea>
+              </div>
+              <button type="submit" class="btn-submit" id="submit-btn">
+                <span class="btn-label" data-i18n="form.send">Enviar mensaje</span>
+                <span class="btn-arrow" aria-hidden="true">→</span>
+              </button>
+              <div class="form-feedback" id="form-feedback" role="alert" aria-live="polite"></div>
+            </form>
+          </div>
+        </div>
       </div>
-    </a>
+    </section>
 
-  </div>
-</section>
+  </main>
 
-<!-- ABOUT -->
-<section class="about" id="about">
-  <div>
-    <div class="section-label reveal" data-en="About" data-es="Sobre mí">About</div>
-    <h2 class="about-title reveal d1">
-      <span data-en="Design that" data-es="Diseño que">Design that</span><br>
-      <em><span data-en="speaks" data-es="habla por">speaks</span></em><br>
-      <span data-en="for itself." data-es="sí solo.">for itself.</span>
-    </h2>
-    <p class="about-text reveal d2" data-en="I'm Alfonso — a web designer and developer. I combine clean code with thoughtful design to build digital presences that businesses are proud of." data-es="Soy Alfonso — diseñador y desarrollador web. Combino código limpio con diseño cuidado para crear presencias digitales de las que los negocios se sienten orgullosos.">I'm Alfonso — a web designer and developer. I combine clean code with thoughtful design to build digital presences that businesses are proud of.</p>
-    <p class="about-text reveal d3" data-en="Every project is built from scratch — no templates, no page builders. Just purposeful design that works." data-es="Cada proyecto se construye desde cero — sin plantillas ni constructores. Solo diseño con propósito que funciona.">Every project is built from scratch — no templates, no page builders. Just purposeful design that works.</p>
-  </div>
-  <div>
-    <div class="about-stats reveal">
-      <div class="stat"><div class="stat-num">4</div><div class="stat-label" data-en="Projects" data-es="Proyectos">Projects</div></div>
-      <div class="stat"><div class="stat-num">4</div><div class="stat-label" data-en="Industries" data-es="Sectores">Industries</div></div>
-      <div class="stat"><div class="stat-num">100%</div><div class="stat-label" data-en="Custom code" data-es="Código propio">Custom code</div></div>
+  <!-- ═══ FOOTER ═══ -->
+  <footer role="contentinfo">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <a href="#inicio" class="nav-logo" aria-label="ANR Creative">
+          <span class="logo-anr">ANR</span><span class="logo-creative">Creative</span>
+        </a>
+        <p class="footer-tagline" data-i18n="footer.tagline">Webs que convierten. Diseño que impresiona.</p>
+      </div>
+      <nav class="footer-nav" aria-label="Navegación del pie de página">
+        <a href="#nosotros"  data-i18n="nav.about">Nosotros</a>
+        <a href="#proyectos" data-i18n="nav.projects">Proyectos</a>
+        <a href="#proceso"   data-i18n="nav.process">Proceso</a>
+        <a href="#contacto"  data-i18n="nav.contact">Contacto</a>
+      </nav>
+      <div class="footer-social">
+        <a href="https://www.linkedin.com/company/anrcreative" target="_blank" rel="noopener" aria-label="LinkedIn ANR Creative">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/anrcreative" target="_blank" rel="noopener" aria-label="Instagram ANR Creative">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        </a>
+      </div>
     </div>
-  </div>
-</section>
-
-<!-- SERVICES -->
-<section class="services" id="services">
-  <div class="section-label reveal" data-en="What I offer" data-es="Qué ofrezco">What I offer</div>
-  <h2 class="section-title reveal d1"><span data-en="Services." data-es="Servicios.">Services.</span></h2>
-  <div class="services-grid">
-    <div class="service-card reveal">
-      <div class="service-num">01</div>
-      <h3 class="service-name" data-en="Landing Pages" data-es="Landing Pages">Landing Pages</h3>
-      <p class="service-desc" data-en="High-converting single pages built to capture attention and turn visitors into clients. Fast, mobile-first, purposeful." data-es="Páginas únicas de alta conversión para captar atención y convertir visitantes en clientes. Rápidas, mobile-first y con propósito.">High-converting single pages built to capture attention and turn visitors into clients. Fast, mobile-first, purposeful.</p>
+    <div class="footer-bottom">
+      <address class="footer-address">
+        ANR Creative &middot;
+        <a href="mailto:alfonsonaranjorigo@gmail.com">alfonsonaranjorigo@gmail.com</a> &middot;
+        <a href="tel:+34629729273">+34 629 729 273</a>
+      </address>
+      <p class="footer-copy" data-i18n="footer.copy">Diseño web profesional | ANR Creative © 2025</p>
     </div>
-    <div class="service-card reveal d1">
-      <div class="service-num">02</div>
-      <h3 class="service-name" data-en="Corporate Websites" data-es="Webs Corporativas">Corporate Websites</h3>
-      <p class="service-desc" data-en="Complete multi-page websites that reflect your brand and communicate your value with clarity and elegance." data-es="Webs multipágina completas que reflejan tu marca y comunican tu valor con claridad y elegancia.">Complete multi-page websites that reflect your brand and communicate your value with clarity and elegance.</p>
-    </div>
-    <div class="service-card reveal d2">
-      <div class="service-num">03</div>
-      <h3 class="service-name" data-en="E-commerce" data-es="Tiendas Online">E-commerce</h3>
-      <p class="service-desc" data-en="Online stores with product management, cart systems, and payment integrations that make buying effortless." data-es="Tiendas online con gestión de productos, carrito e integraciones de pago que hacen la compra sencilla.">Online stores with product management, cart systems, and payment integrations that make buying effortless.</p>
-    </div>
-  </div>
-</section>
+    <button class="scroll-top" id="scrollTop" aria-label="Volver arriba">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
+    </button>
+  </footer>
 
-<!-- CONTACT -->
-<section class="contact" id="contact">
-  <div class="contact-bg"></div>
-  <div class="section-label reveal" style="justify-content:center" data-en="Get in touch" data-es="Contacta">Get in touch</div>
-  <h2 class="contact-title reveal d1">
-    <span data-en="Let's" data-es="Hablemos">Let's</span><br>
-    <em><span data-en="work together." data-es="juntos.">work together.</span></em>
-  </h2>
-  <p class="contact-sub reveal d2" data-en="Have a project in mind? Write to me on WhatsApp or email — I'll reply the same day." data-es="¿Tienes un proyecto en mente? Escríbeme por WhatsApp o email — te respondo el mismo día.">Have a project in mind? Write to me on WhatsApp or email — I'll reply the same day.</p>
+  <!-- Scripts — deferred -->
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js" defer></script>
+  <script src="js/i18n.js" defer></script>
+  <script src="js/main.js" defer></script>
 
-  <div class="contact-buttons reveal d3">
-    <a href="https://wa.me/34629729273?text=Hi%20Alfonso%2C%20I%20found%20your%20portfolio%20and%20I%27m%20interested%20in%20a%20project." target="_blank" class="btn-whatsapp">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      <span data-en="WhatsApp me" data-es="Escríbeme por WhatsApp">WhatsApp me</span>
-    </a>
-    <a href="mailto:alfonsonaranjorigo@gmail.com?subject=Project%20Inquiry%20via%20ANR%20Create&body=Hi%20Alfonso%2C%0A%0AI%20found%20your%20portfolio%20and%20I%27m%20interested%20in%20working%20with%20you.%0A%0AProject%20details%3A%0A%0A" class="btn-email">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-      <span data-en="Send an email" data-es="Enviar email">Send an email</span>
-    </a>
-  </div>
-
-  <div class="contact-divider"></div>
-  <p class="contact-email-text reveal">alfonsonaranjorigo@gmail.com</p>
-</section>
-
-<footer>
-  <span class="footer-logo">ANR<span>·</span>Create</span>
-  <span class="footer-copy" data-en="© 2025 ANR Create. All rights reserved." data-es="© 2025 ANR Create. Todos los derechos reservados.">© 2025 ANR Create. All rights reserved.</span>
-</footer>
-
-<script>
-// CURSOR
-const cursor=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px'});
-(function loop(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop)})();
-document.querySelectorAll('a,button').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{ring.style.width='52px';ring.style.height='52px';ring.style.borderColor='rgba(196,153,90,0.8)'});
-  el.addEventListener('mouseleave',()=>{ring.style.width='36px';ring.style.height='36px';ring.style.borderColor='rgba(196,153,90,0.5)'});
-});
-
-// PARTICLES
-const canvas=document.getElementById('particles-canvas'),ctx=canvas.getContext('2d');
-let W,H,pts=[];
-function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
-resize();window.addEventListener('resize',resize);
-function rnd(a,b){return Math.random()*(b-a)+a}
-for(let i=0;i<100;i++)pts.push({x:rnd(0,W||1200),y:rnd(0,H||800),vx:rnd(-.2,.2),vy:rnd(-.2,.2),r:rnd(.8,2.2),a:rnd(.15,.5),p:rnd(0,Math.PI*2),ps:rnd(.005,.015)});
-(function draw(){
-  ctx.clearRect(0,0,W,H);
-  pts.forEach(p=>{
-    p.x+=p.vx;p.y+=p.vy;p.p+=p.ps;
-    if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;
-    const al=p.a*(.7+.3*Math.sin(p.p));
-    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fillStyle=`rgba(196,153,90,${al})`;ctx.fill();
-  });
-  for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
-    const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);
-    if(d<110){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(196,153,90,${.07*(1-d/110)})`;ctx.lineWidth=.5;ctx.stroke()}
-  }
-  requestAnimationFrame(draw);
-})();
-
-// NAV
-window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>50));
-
-// LANG
-let lang='en';
-function setLang(l){
-  lang=l;
-  document.querySelectorAll('.lang-btn').forEach((b,i)=>b.classList.toggle('active',(i===0&&l==='en')||(i===1&&l==='es')));
-  document.querySelectorAll('[data-en]').forEach(el=>{
-    const val=el.getAttribute('data-'+l);
-    if(val) el.textContent=val;
-  });
-  buildMarquee();
-}
-
-// MARQUEE
-const mItems={
-  en:['Web Design','Landing Pages','E-commerce','Corporate Sites','Clean Code','Mobile First','Fast Delivery','Custom Build'],
-  es:['Diseño Web','Landing Pages','Tiendas Online','Webs Corporativas','Código Limpio','Mobile First','Entrega Rápida','A Medida']
-};
-function buildMarquee(){
-  const t=document.getElementById('marquee-track'),items=mItems[lang];
-  let h='';
-  for(let i=0;i<3;i++)items.forEach(it=>{h+=`<span class="marquee-item"><span class="marquee-dot"></span>${it}</span>`});
-  t.innerHTML=h;
-}
-buildMarquee();
-
-// REVEAL
-const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')}),{threshold:.08,rootMargin:'0px 0px -50px 0px'});
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-
-// SMOOTH SCROLL
-document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();const t=document.querySelector(a.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth'})}));
-</script>
 </body>
 </html>
